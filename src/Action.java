@@ -8,11 +8,11 @@ import java.util.Random;
 
 final class Action
 {
-   public ActionKind kind;
-   public Entity entity;
-   public WorldModel world;
-   public ImageStore imageStore;
-   public int repeatCount;
+   private final ActionKind kind;
+   private final Entity entity;
+   private final WorldModel world;
+   private final ImageStore imageStore;
+   private final int repeatCount;
 
    public Action(ActionKind kind, Entity entity, WorldModel world,
       ImageStore imageStore, int repeatCount)
@@ -26,20 +26,20 @@ final class Action
 
 
 
-   public static final Random rand = new Random();
+   private static final Random rand = new Random();
 
-   public static final String CRAB_KEY = "crab";
-   public static final String CRAB_ID_SUFFIX = " -- crab";
-   public static final int CRAB_PERIOD_SCALE = 4;
-   public static final int CRAB_ANIMATION_MIN = 50;
-   public static final int CRAB_ANIMATION_MAX = 150;
+   private static final String CRAB_KEY = "crab";
+   private static final String CRAB_ID_SUFFIX = " -- crab";
+   private static final int CRAB_PERIOD_SCALE = 4;
+   private static final int CRAB_ANIMATION_MIN = 50;
+   private static final int CRAB_ANIMATION_MAX = 150;
 
-   public static final String QUAKE_KEY = "quake";
+   private static final String QUAKE_KEY = "quake";
 
-   public static final String FISH_KEY = "fish";
-   public static final String FISH_ID_PREFIX = "fish -- ";
-   public static final int FISH_CORRUPT_MIN = 20000;
-   public static final int FISH_CORRUPT_MAX = 30000;
+   private static final String FISH_KEY = "fish";
+   private static final String FISH_ID_PREFIX = "fish -- ";
+   private static final int FISH_CORRUPT_MIN = 20000;
+   private static final int FISH_CORRUPT_MAX = 30000;
 
 
    public void executeAction(EventScheduler scheduler)
@@ -56,7 +56,7 @@ final class Action
       }
    }
 
-   public void executeAnimationAction(EventScheduler scheduler)
+   private void executeAnimationAction(EventScheduler scheduler)
    {
       this.entity.nextImage();
 
@@ -69,9 +69,9 @@ final class Action
       }
    }
 
-   public void executeActivityAction(EventScheduler scheduler)
+   private void executeActivityAction(EventScheduler scheduler)
    {
-      switch (this.entity.kind)
+      switch (this.entity.getKind())
       {
          case OCTO_FULL:
             executeOctoFullActivity(this.entity, this.world,
@@ -111,14 +111,14 @@ final class Action
          default:
             throw new UnsupportedOperationException(
                     String.format("executeActivityAction not supported for %s",
-                            this.entity.kind));
+                            this.entity.getKind()));
       }
    }
 
-   public void executeOctoFullActivity(Entity entity, WorldModel world,
+   private void executeOctoFullActivity(Entity entity, WorldModel world,
                                               ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Entity> fullTarget = world.findNearest(entity.position,
+      Optional<Entity> fullTarget = world.findNearest(entity.getPosition(),
               EntityKind.ATLANTIS);
 
       if (fullTarget.isPresent() &&
@@ -134,14 +134,14 @@ final class Action
       {
          scheduler.scheduleEvent(entity,
                  scheduler.createActivityAction(entity, world, imageStore),
-                 entity.actionPeriod);
+                 entity.getActionPeriod());
       }
    }
 
-   public void executeOctoNotFullActivity(Entity entity,
+   private void executeOctoNotFullActivity(Entity entity,
                                                  WorldModel world, ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Entity> notFullTarget = world.findNearest(entity.position,
+      Optional<Entity> notFullTarget = world.findNearest(entity.getPosition(),
               EntityKind.FISH);
 
       if (!notFullTarget.isPresent() ||
@@ -150,20 +150,20 @@ final class Action
       {
          scheduler.scheduleEvent(entity,
                  scheduler.createActivityAction(entity, world, imageStore),
-                 entity.actionPeriod);
+                 entity.getActionPeriod());
       }
    }
 
-   public void executeFishActivity(Entity entity, WorldModel world,
+   private void executeFishActivity(Entity entity, WorldModel world,
                                           ImageStore imageStore, EventScheduler scheduler)
    {
-      Point pos = entity.position;  // store current position before removing
+      Point pos = entity.getPosition();  // store current position before removing
 
       world.removeEntity(entity);
       scheduler.unscheduleAllEvents(entity);
 
-      Entity crab = world.createCrab(entity.id + CRAB_ID_SUFFIX,
-              pos, entity.actionPeriod / CRAB_PERIOD_SCALE,
+      Entity crab = world.createCrab(entity.getId() + CRAB_ID_SUFFIX,
+              pos, entity.getActionPeriod() / CRAB_PERIOD_SCALE,
               CRAB_ANIMATION_MIN +
                       rand.nextInt(CRAB_ANIMATION_MAX - CRAB_ANIMATION_MIN),
               imageStore.getImageList(CRAB_KEY));
@@ -172,15 +172,15 @@ final class Action
       scheduler.scheduleActions(crab, world, imageStore);
    }
 
-   public void executeCrabActivity(Entity entity, WorldModel world,
+   private void executeCrabActivity(Entity entity, WorldModel world,
                                           ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Entity> crabTarget = world.findNearest(entity.position, EntityKind.SGRASS);
-      long nextPeriod = entity.actionPeriod;
+      Optional<Entity> crabTarget = world.findNearest(entity.getPosition(), EntityKind.SGRASS);
+      long nextPeriod = entity.getActionPeriod();
 
       if (crabTarget.isPresent())
       {
-         Point tgtPos = crabTarget.get().position;
+         Point tgtPos = crabTarget.get().getPosition();
 
          if (moveToCrab(entity, world, crabTarget.get(), scheduler))
          {
@@ -188,7 +188,7 @@ final class Action
                     imageStore.getImageList(QUAKE_KEY));
 
             world.addEntity(quake);
-            nextPeriod += entity.actionPeriod;
+            nextPeriod += entity.getActionPeriod();
             scheduler.scheduleActions(quake, world, imageStore);
          }
       }
@@ -198,28 +198,28 @@ final class Action
               nextPeriod);
    }
 
-   public void executeQuakeActivity(Entity entity, WorldModel world,
+   private void executeQuakeActivity(Entity entity, WorldModel world,
                                            ImageStore imageStore, EventScheduler scheduler)
    {
       scheduler.unscheduleAllEvents(entity);
       world.removeEntity(entity);
    }
 
-   public void executeAtlantisActivity(Entity entity, WorldModel world,
+   private void executeAtlantisActivity(Entity entity, WorldModel world,
                                               ImageStore imageStore, EventScheduler scheduler)
    {
       scheduler.unscheduleAllEvents(entity);
       world.removeEntity(entity);
    }
 
-   public void executeSgrassActivity(Entity entity, WorldModel world,
+   private void executeSgrassActivity(Entity entity, WorldModel world,
                                             ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Point> openPt = world.findOpenAround(entity.position);
+      Optional<Point> openPt = world.findOpenAround(entity.getPosition());
 
       if (openPt.isPresent())
       {
-         Entity fish = world.createFish(FISH_ID_PREFIX + entity.id,
+         Entity fish = world.createFish(FISH_ID_PREFIX + entity.getId(),
                  openPt.get(), FISH_CORRUPT_MIN +
                          rand.nextInt(FISH_CORRUPT_MAX - FISH_CORRUPT_MIN),
                  imageStore.getImageList(FISH_KEY));
@@ -229,19 +229,18 @@ final class Action
 
       scheduler.scheduleEvent(entity,
               scheduler.createActivityAction(entity, world, imageStore),
-              entity.actionPeriod);
+              entity.getActionPeriod());
    }
 
 
-
-   public boolean transformNotFull(Entity entity, WorldModel world,
+   private boolean transformNotFull(Entity entity, WorldModel world,
                                           EventScheduler scheduler, ImageStore imageStore)
    {
-      if (entity.resourceCount >= entity.resourceLimit)
+      if (entity.getResourceCount() >= entity.getResourceLimit())
       {
-         Entity octo = world.createOctoFull(entity.id, entity.resourceLimit,
-                 entity.position, entity.actionPeriod, entity.animationPeriod,
-                 entity.images);
+         Entity octo = world.createOctoFull(entity.getId(), entity.getResourceLimit(),
+                 entity.getPosition(), entity.getActionPeriod(), entity.getAnimationPeriod(),
+                 entity.getImages());
 
          world.removeEntity(entity);
          scheduler.unscheduleAllEvents(entity);
@@ -255,12 +254,12 @@ final class Action
       return false;
    }
 
-   public void transformFull(Entity entity, WorldModel world,
+   private void transformFull(Entity entity, WorldModel world,
                                     EventScheduler scheduler, ImageStore imageStore)
    {
-      Entity octo = world.createOctoNotFull(entity.id, entity.resourceLimit,
-              entity.position, entity.actionPeriod, entity.animationPeriod,
-              entity.images);
+      Entity octo = world.createOctoNotFull(entity.getId(), entity.getResourceLimit(),
+              entity.getPosition(), entity.getActionPeriod(), entity.getAnimationPeriod(),
+              entity.getImages());
 
       world.removeEntity(entity);
       scheduler.unscheduleAllEvents(entity);
@@ -269,12 +268,12 @@ final class Action
       scheduler.scheduleActions(octo, world, imageStore);
    }
 
-   public boolean moveToNotFull(Entity octo, WorldModel world,
+   private boolean moveToNotFull(Entity octo, WorldModel world,
                                        Entity target, EventScheduler scheduler)
    {
-      if (octo.position.adjacent(target.position))
+      if (octo.getPosition().adjacent(target.getPosition()))
       {
-         octo.resourceCount += 1;
+         octo.setResourceCount(octo.getResourceCount()+1);
          world.removeEntity(target);
          scheduler.unscheduleAllEvents(target);
 
@@ -282,9 +281,9 @@ final class Action
       }
       else
       {
-         Point nextPos = nextPositionOcto(octo, world, target.position);
+         Point nextPos = nextPositionOcto(octo, world, target.getPosition());
 
-         if (!octo.position.equals(nextPos))
+         if (!octo.getPosition().equals(nextPos))
          {
             Optional<Entity> occupant = world.getOccupant(nextPos);
             if (occupant.isPresent())
@@ -298,18 +297,18 @@ final class Action
       }
    }
 
-   public boolean moveToFull(Entity octo, WorldModel world,
+   private boolean moveToFull(Entity octo, WorldModel world,
                                     Entity target, EventScheduler scheduler)
    {
-      if (octo.position.adjacent(target.position))
+      if (octo.getPosition().adjacent(target.getPosition()))
       {
          return true;
       }
       else
       {
-         Point nextPos = nextPositionOcto(octo, world, target.position);
+         Point nextPos = nextPositionOcto(octo, world, target.getPosition());
 
-         if (!octo.position.equals(nextPos))
+         if (!octo.getPosition().equals(nextPos))
          {
             Optional<Entity> occupant = world.getOccupant(nextPos);
             if (occupant.isPresent())
@@ -323,10 +322,10 @@ final class Action
       }
    }
 
-   public boolean moveToCrab(Entity crab, WorldModel world,
+   private boolean moveToCrab(Entity crab, WorldModel world,
                                     Entity target, EventScheduler scheduler)
    {
-      if (crab.position.adjacent(target.position))
+      if (crab.getPosition().adjacent(target.getPosition()))
       {
          world.removeEntity(target);
          scheduler.unscheduleAllEvents(target);
@@ -334,9 +333,9 @@ final class Action
       }
       else
       {
-         Point nextPos = nextPositionCrab(crab, world, target.position);
+         Point nextPos = nextPositionCrab(crab, world, target.getPosition());
 
-         if (!crab.position.equals(nextPos))
+         if (!crab.getPosition().equals(nextPos))
          {
             Optional<Entity> occupant = world.getOccupant(nextPos);
             if (occupant.isPresent())
@@ -351,58 +350,53 @@ final class Action
    }
 
 
-
-   public Point nextPositionOcto(Entity entity, WorldModel world,
+   private Point nextPositionOcto(Entity entity, WorldModel world,
                                         Point destPos)
    {
-      int horiz = Integer.signum(destPos.x - entity.position.x);
-      Point newPos = new Point(entity.position.x + horiz,
-              entity.position.y);
+      int horiz = Integer.signum(destPos.x - entity.getPosition().x);
+      Point newPos = new Point(entity.getPosition().x + horiz,
+              entity.getPosition().y);
 
       if (horiz == 0 || world.isOccupied(newPos))
       {
-         int vert = Integer.signum(destPos.y - entity.position.y);
-         newPos = new Point(entity.position.x,
-                 entity.position.y + vert);
+         int vert = Integer.signum(destPos.y - entity.getPosition().y);
+         newPos = new Point(entity.getPosition().x,
+                 entity.getPosition().y + vert);
 
          if (vert == 0 || world.isOccupied(newPos))
          {
-            newPos = entity.position;
+            newPos = entity.getPosition();
          }
       }
 
       return newPos;
    }
 
-   public Point nextPositionCrab(Entity entity, WorldModel world,
+   private Point nextPositionCrab(Entity entity, WorldModel world,
                                         Point destPos)
    {
-      int horiz = Integer.signum(destPos.x - entity.position.x);
-      Point newPos = new Point(entity.position.x + horiz,
-              entity.position.y);
+      int horiz = Integer.signum(destPos.x - entity.getPosition().x);
+      Point newPos = new Point(entity.getPosition().x + horiz,
+              entity.getPosition().y);
 
       Optional<Entity> occupant = world.getOccupant(newPos);
 
       if (horiz == 0 ||
-              (occupant.isPresent() && !(occupant.get().kind == EntityKind.FISH)))
+              (occupant.isPresent() && !(occupant.get().getKind() == EntityKind.FISH)))
       {
-         int vert = Integer.signum(destPos.y - entity.position.y);
-         newPos = new Point(entity.position.x, entity.position.y + vert);
+         int vert = Integer.signum(destPos.y - entity.getPosition().y);
+         newPos = new Point(entity.getPosition().x, entity.getPosition().y + vert);
          occupant = world.getOccupant(newPos);
 
          if (vert == 0 ||
-                 (occupant.isPresent() && !(occupant.get().kind == EntityKind.FISH)))
+                 (occupant.isPresent() && !(occupant.get().getKind() == EntityKind.FISH)))
          {
-            newPos = entity.position;
+            newPos = entity.getPosition();
          }
       }
 
       return newPos;
    }
-
-
-
-
 
 
 

@@ -73,12 +73,12 @@ final class EventScheduler
    public static final int ATLANTIS_ANIMATION_REPEAT_COUNT = 7;
    public void scheduleActions(Entity entity, WorldModel world, ImageStore imageStore)
    {
-      switch (entity.kind)
+      switch (entity.getKind())
       {
          case OCTO_FULL:
             this.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
+                    entity.getActionPeriod());
             this.scheduleEvent(entity, createAnimationAction(entity, 0),
                     entity.getAnimationPeriod());
             break;
@@ -86,7 +86,7 @@ final class EventScheduler
          case OCTO_NOT_FULL:
             this.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
+                    entity.getActionPeriod());
             this.scheduleEvent(entity,
                     createAnimationAction(entity, 0), entity.getAnimationPeriod());
             break;
@@ -94,13 +94,13 @@ final class EventScheduler
          case FISH:
             this.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
+                    entity.getActionPeriod());
             break;
 
          case CRAB:
             this.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
+                    entity.getActionPeriod());
             this.scheduleEvent(entity,
                     createAnimationAction(entity, 0), entity.getAnimationPeriod());
             break;
@@ -108,7 +108,7 @@ final class EventScheduler
          case QUAKE:
             this.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
+                    entity.getActionPeriod());
             this.scheduleEvent(entity,
                     createAnimationAction(entity, QUAKE_ANIMATION_REPEAT_COUNT),
                     entity.getAnimationPeriod());
@@ -117,7 +117,7 @@ final class EventScheduler
          case SGRASS:
             this.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
+                    entity.getActionPeriod());
             break;
          case ATLANTIS:
             this.scheduleEvent(entity,
