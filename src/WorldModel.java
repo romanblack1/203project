@@ -9,11 +9,11 @@ in terms of entities and background elements
 
 final class WorldModel
 {
-   public int numRows;
-   public int numCols;
-   public Background background[][];
-   public Entity occupancy[][];
-   public Set<Entity> entities;
+   private int numRows;
+   private int numCols;
+   private Background background[][];
+   private Entity occupancy[][];
+   private Set<Entity> entities;
 
    public WorldModel(int numRows, int numCols, Background defaultBackground)
    {
@@ -29,7 +29,8 @@ final class WorldModel
       }
    }
 
-   public static final int FISH_REACH = 1;
+   private static final int FISH_REACH = 1;
+
    public Optional<Point> findOpenAround(Point pos)
    {
       for (int dy = -FISH_REACH; dy <= FISH_REACH; dy++)
@@ -48,7 +49,7 @@ final class WorldModel
       return Optional.empty();
    }
 
-   public void tryAddEntity(Entity entity)
+   private void tryAddEntity(Entity entity)
    {
       if (isOccupied(entity.getPosition()))
       {
@@ -59,7 +60,7 @@ final class WorldModel
       addEntity(entity);
    }
 
-   public boolean withinBounds(Point pos)
+   private boolean withinBounds(Point pos)
    {
       return pos.getY() >= 0 && pos.getY() < this.numRows &&
               pos.getX() >= 0 && pos.getX() < this.numCols;
@@ -70,7 +71,7 @@ final class WorldModel
       return withinBounds(pos) && getOccupancyCell(pos) != null;
    }
 
-   public Optional<Entity> nearestEntity(List<Entity> entities, Point pos)
+   private Optional<Entity> nearestEntity(List<Entity> entities, Point pos)
    {
       if (entities.isEmpty())
       {
@@ -140,7 +141,7 @@ final class WorldModel
       removeEntityAt(entity.getPosition());
    }
 
-   public void removeEntityAt(Point pos)
+   private void removeEntityAt(Point pos)
    {
       if (withinBounds(pos)
               && getOccupancyCell(pos) != null)
@@ -167,7 +168,7 @@ final class WorldModel
       }
    }
 
-   public void setBackground(Point pos, Background background)
+   private void setBackground(Point pos, Background background)
    {
       if (withinBounds(pos))
       {
@@ -187,75 +188,74 @@ final class WorldModel
       }
    }
 
-   public Entity getOccupancyCell(Point pos)
+   private Entity getOccupancyCell(Point pos)
    {
       return this.occupancy[pos.getY()][pos.getX()];
    }
 
-   public void setOccupancyCell(Point pos, Entity entity)
+   private void setOccupancyCell(Point pos, Entity entity)
    {
       this.occupancy[pos.getY()][pos.getX()] = entity;
    }
 
-   public Background getBackgroundCell(Point pos)
+   private Background getBackgroundCell(Point pos)
    {
       return this.background[pos.getY()][pos.getX()];
    }
 
-   public void setBackgroundCell(Point pos, Background background)
+   private void setBackgroundCell(Point pos, Background background)
    {
       this.background[pos.getY()][pos.getX()] = background;
    }
 
 
+   private static final String FISH_KEY = "fish";
 
-   public static final String FISH_KEY = "fish";
+   private static final String OCTO_KEY = "octo";
+   private static final int OCTO_NUM_PROPERTIES = 7;
+   private static final int OCTO_ID = 1;
+   private static final int OCTO_COL = 2;
+   private static final int OCTO_ROW = 3;
+   private static final int OCTO_LIMIT = 4;
+   private static final int OCTO_ACTION_PERIOD = 5;
+   private static final int OCTO_ANIMATION_PERIOD = 6;
 
-   public static final String OCTO_KEY = "octo";
-   public static final int OCTO_NUM_PROPERTIES = 7;
-   public static final int OCTO_ID = 1;
-   public static final int OCTO_COL = 2;
-   public static final int OCTO_ROW = 3;
-   public static final int OCTO_LIMIT = 4;
-   public static final int OCTO_ACTION_PERIOD = 5;
-   public static final int OCTO_ANIMATION_PERIOD = 6;
+   private static final String OBSTACLE_KEY = "obstacle";
+   private static final int OBSTACLE_NUM_PROPERTIES = 4;
+   private static final int OBSTACLE_ID = 1;
+   private static final int OBSTACLE_COL = 2;
+   private static final int OBSTACLE_ROW = 3;
 
-   public static final String OBSTACLE_KEY = "obstacle";
-   public static final int OBSTACLE_NUM_PROPERTIES = 4;
-   public static final int OBSTACLE_ID = 1;
-   public static final int OBSTACLE_COL = 2;
-   public static final int OBSTACLE_ROW = 3;
+   private static final int FISH_NUM_PROPERTIES = 5;
+   private static final int FISH_ID = 1;
+   private static final int FISH_COL = 2;
+   private static final int FISH_ROW = 3;
+   private static final int FISH_ACTION_PERIOD = 4;
 
-   public static final int FISH_NUM_PROPERTIES = 5;
-   public static final int FISH_ID = 1;
-   public static final int FISH_COL = 2;
-   public static final int FISH_ROW = 3;
-   public static final int FISH_ACTION_PERIOD = 4;
+   private static final String ATLANTIS_KEY = "atlantis";
+   private static final int ATLANTIS_NUM_PROPERTIES = 4;
+   private static final int ATLANTIS_ID = 1;
+   private static final int ATLANTIS_COL = 2;
+   private static final int ATLANTIS_ROW = 3;
 
-   public static final String ATLANTIS_KEY = "atlantis";
-   public static final int ATLANTIS_NUM_PROPERTIES = 4;
-   public static final int ATLANTIS_ID = 1;
-   public static final int ATLANTIS_COL = 2;
-   public static final int ATLANTIS_ROW = 3;
+   private static final String SGRASS_KEY = "seaGrass";
+   private static final int SGRASS_NUM_PROPERTIES = 5;
+   private static final int SGRASS_ID = 1;
+   private static final int SGRASS_COL = 2;
+   private static final int SGRASS_ROW = 3;
+   private static final int SGRASS_ACTION_PERIOD = 4;
 
-   public static final String SGRASS_KEY = "seaGrass";
-   public static final int SGRASS_NUM_PROPERTIES = 5;
-   public static final int SGRASS_ID = 1;
-   public static final int SGRASS_COL = 2;
-   public static final int SGRASS_ROW = 3;
-   public static final int SGRASS_ACTION_PERIOD = 4;
+   private static final String BGND_KEY = "background";
+   private static final int BGND_NUM_PROPERTIES = 4;
+   private static final int BGND_ID = 1;
+   private static final int BGND_COL = 2;
+   private static final int BGND_ROW = 3;
 
-   public static final String BGND_KEY = "background";
-   public static final int BGND_NUM_PROPERTIES = 4;
-   public static final int BGND_ID = 1;
-   public static final int BGND_COL = 2;
-   public static final int BGND_ROW = 3;
+   private static final int PROPERTY_KEY = 0;
 
-   public static final int PROPERTY_KEY = 0;
-
-   public static final String QUAKE_ID = "quake";
-   public static final int QUAKE_ACTION_PERIOD = 1100;
-   public static final int QUAKE_ANIMATION_PERIOD = 100;
+   private static final String QUAKE_ID = "quake";
+   private static final int QUAKE_ACTION_PERIOD = 1100;
+   private static final int QUAKE_ANIMATION_PERIOD = 100;
 
    public void load(Scanner in, ImageStore imageStore)
    {
@@ -284,7 +284,7 @@ final class WorldModel
       }
    }
 
-   public boolean processLine(String line, ImageStore imageStore)
+   private boolean processLine(String line, ImageStore imageStore)
    {
       String[] properties = line.split("\\s");
       if (properties.length > 0)
@@ -309,7 +309,7 @@ final class WorldModel
       return false;
    }
 
-   public boolean parseBackground(String [] properties, ImageStore imageStore)
+   private boolean parseBackground(String [] properties, ImageStore imageStore)
    {
       if (properties.length == BGND_NUM_PROPERTIES)
       {
@@ -323,7 +323,7 @@ final class WorldModel
       return properties.length == BGND_NUM_PROPERTIES;
    }
 
-   public boolean parseOcto(String [] properties, ImageStore imageStore)
+   private boolean parseOcto(String [] properties, ImageStore imageStore)
    {
       if (properties.length == OCTO_NUM_PROPERTIES)
       {
@@ -341,7 +341,7 @@ final class WorldModel
       return properties.length == OCTO_NUM_PROPERTIES;
    }
 
-   public boolean parseObstacle(String [] properties, ImageStore imageStore)
+   private boolean parseObstacle(String [] properties, ImageStore imageStore)
    {
       if (properties.length == OBSTACLE_NUM_PROPERTIES)
       {
@@ -356,7 +356,7 @@ final class WorldModel
       return properties.length == OBSTACLE_NUM_PROPERTIES;
    }
 
-   public boolean parseFish(String [] properties, ImageStore imageStore)
+   private boolean parseFish(String [] properties, ImageStore imageStore)
    {
       if (properties.length == FISH_NUM_PROPERTIES)
       {
@@ -371,7 +371,7 @@ final class WorldModel
       return properties.length == FISH_NUM_PROPERTIES;
    }
 
-   public boolean parseAtlantis(String [] properties, ImageStore imageStore)
+   private boolean parseAtlantis(String [] properties, ImageStore imageStore)
    {
       if (properties.length == ATLANTIS_NUM_PROPERTIES)
       {
@@ -385,7 +385,7 @@ final class WorldModel
       return properties.length == ATLANTIS_NUM_PROPERTIES;
    }
 
-   public boolean parseSgrass(String [] properties, ImageStore imageStore)
+   private boolean parseSgrass(String [] properties, ImageStore imageStore)
    {
       if (properties.length == SGRASS_NUM_PROPERTIES)
       {
@@ -402,7 +402,7 @@ final class WorldModel
    }
 
 
-   public Entity createAtlantis(String id, Point position,
+   private Entity createAtlantis(String id, Point position,
                                 List<PImage> images)
    {
       return new Entity(EntityKind.ATLANTIS, id, position, images,
@@ -418,7 +418,7 @@ final class WorldModel
               resourceLimit, 0, actionPeriod, animationPeriod);
    }
 
-   public Entity createObstacle(String id, Point position,
+   private Entity createObstacle(String id, Point position,
                                 List<PImage> images)
    {
       return new Entity(EntityKind.OBSTACLE, id, position, images,
@@ -432,7 +432,7 @@ final class WorldModel
               actionPeriod, 0);
    }
 
-   public Entity createSgrass(String id, Point position, int actionPeriod,
+   private Entity createSgrass(String id, Point position, int actionPeriod,
                               List<PImage> images)
    {
       return new Entity(EntityKind.SGRASS, id, position, images, 0, 0,
@@ -477,6 +477,17 @@ final class WorldModel
                  String.format("getCurrentImage not supported for %s",
                          entity));
       }
+   }
+
+
+   public int getNumRows(){
+      return this.numRows;
+   }
+   public int getNumCols(){
+      return this.numCols;
+   }
+   public Set<Entity> getEntities(){
+      return this.entities;
    }
 
 }

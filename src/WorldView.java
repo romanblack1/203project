@@ -10,11 +10,11 @@ that we can see based on the viewport
 
 final class WorldView
 {
-   public PApplet screen;
-   public WorldModel world;
-   public int tileWidth;
-   public int tileHeight;
-   public Viewport viewport;
+   private final PApplet screen;
+   private final WorldModel world;
+   private final int tileWidth;
+   private final int tileHeight;
+   private final Viewport viewport;
 
    public WorldView(int numRows, int numCols, PApplet screen, WorldModel world,
       int tileWidth, int tileHeight)
@@ -26,7 +26,7 @@ final class WorldView
       this.viewport = new Viewport(numRows, numCols);
    }
 
-   public int clamp(int value, int low, int high)
+   private int clamp(int value, int low, int high)
    {
       return Math.min(high, Math.max(value, low));
    }
@@ -34,14 +34,14 @@ final class WorldView
    public void shiftView(int colDelta, int rowDelta)
    {
       int newCol = clamp(this.viewport.getCol() + colDelta, 0,
-              this.world.numCols - this.viewport.getNumCols());
+              this.world.getNumCols() - this.viewport.getNumCols());
       int newRow = clamp(this.viewport.getRow() + rowDelta, 0,
-              this.world.numRows - this.viewport.getNumRows());
+              this.world.getNumRows() - this.viewport.getNumRows());
 
       this.viewport.shift(newCol, newRow);
    }
 
-   public void drawBackground()
+   private void drawBackground()
    {
       for (int row = 0; row < this.viewport.getNumRows(); row++)
       {
@@ -58,9 +58,9 @@ final class WorldView
       }
    }
 
-   public void drawEntities()
+   private void drawEntities()
    {
-      for (Entity entity : this.world.entities)
+      for (Entity entity : this.world.getEntities())
       {
          Point pos = entity.getPosition();
 
@@ -81,8 +81,8 @@ final class WorldView
 
 
 
-   public static final int COLOR_MASK = 0xffffff;
-   public static final int KEYED_IMAGE_MIN = 5;
+   private static final int COLOR_MASK = 0xffffff;
+   private static final int KEYED_IMAGE_MIN = 5;
    private static final int KEYED_RED_IDX = 2;
    private static final int KEYED_GREEN_IDX = 3;
    private static final int KEYED_BLUE_IDX = 4;
@@ -105,7 +105,7 @@ final class WorldView
       }
    }
 
-   public void processImageLine(Map<String, List<PImage>> images,
+   private void processImageLine(Map<String, List<PImage>> images,
                                        String line, PApplet screen)
    {
       String[] attrs = line.split("\\s");
@@ -129,7 +129,7 @@ final class WorldView
       }
    }
 
-   public List<PImage> getImages(Map<String, List<PImage>> images,
+   private List<PImage> getImages(Map<String, List<PImage>> images,
                                         String key)
    {
       List<PImage> imgs = images.get(key);
@@ -145,7 +145,7 @@ final class WorldView
      Called with color for which alpha should be set and alpha value.
      setAlpha(img, color(255, 255, 255), 0));
    */
-   public void setAlpha(PImage img, int maskColor, int alpha)
+   private void setAlpha(PImage img, int maskColor, int alpha)
    {
       int alphaValue = alpha << 24;
       int nonAlpha = maskColor & COLOR_MASK;
