@@ -1,7 +1,7 @@
 final class Point
 {
-   public final int x;
-   public final int y;
+   private final int x;
+   private final int y;
 
    public Point(int x, int y)
    {
@@ -41,5 +41,12 @@ final class Point
       int deltaY = this.y - p2.y;
 
       return deltaX * deltaX + deltaY * deltaY;
+   }
+
+   public int getX(){
+      return this.x;
+   }
+   public int getY(){
+      return this.y;
    }
 }

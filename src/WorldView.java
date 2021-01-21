@@ -33,19 +33,19 @@ final class WorldView
 
    public void shiftView(int colDelta, int rowDelta)
    {
-      int newCol = clamp(this.viewport.col + colDelta, 0,
-              this.world.numCols - this.viewport.numCols);
-      int newRow = clamp(this.viewport.row + rowDelta, 0,
-              this.world.numRows - this.viewport.numRows);
+      int newCol = clamp(this.viewport.getCol() + colDelta, 0,
+              this.world.numCols - this.viewport.getNumCols());
+      int newRow = clamp(this.viewport.getRow() + rowDelta, 0,
+              this.world.numRows - this.viewport.getNumRows());
 
       this.viewport.shift(newCol, newRow);
    }
 
    public void drawBackground()
    {
-      for (int row = 0; row < this.viewport.numRows; row++)
+      for (int row = 0; row < this.viewport.getNumRows(); row++)
       {
-         for (int col = 0; col < this.viewport.numCols; col++)
+         for (int col = 0; col < this.viewport.getNumCols(); col++)
          {
             Point worldPoint = this.viewport.viewportToWorld(col, row);
             Optional<PImage> image = this.world.getBackgroundImage(worldPoint);
@@ -66,9 +66,9 @@ final class WorldView
 
          if (this.viewport.contains(pos))
          {
-            Point viewPoint = this.viewport.worldToViewport(pos.x, pos.y);
+            Point viewPoint = this.viewport.worldToViewport(pos.getX(), pos.getY());
             this.screen.image(this.world.getCurrentImage(entity),
-                    viewPoint.x * this.tileWidth, viewPoint.y * this.tileHeight);
+                    viewPoint.getX() * this.tileWidth, viewPoint.getY() * this.tileHeight);
          }
       }
    }
@@ -94,7 +94,7 @@ final class WorldView
       {
          try
          {
-            processImageLine(imageStore.images, in.nextLine(), screen);
+            processImageLine(imageStore.getImages(), in.nextLine(), screen);
          }
          catch (NumberFormatException e)
          {

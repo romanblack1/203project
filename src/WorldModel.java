@@ -36,7 +36,7 @@ final class WorldModel
       {
          for (int dx = -FISH_REACH; dx <= FISH_REACH; dx++)
          {
-            Point newPt = new Point(pos.x + dx, pos.y + dy);
+            Point newPt = new Point(pos.getX() + dx, pos.getY() + dy);
             if (this.withinBounds(newPt) &&
                     !this.isOccupied(newPt))
             {
@@ -61,8 +61,8 @@ final class WorldModel
 
    public boolean withinBounds(Point pos)
    {
-      return pos.y >= 0 && pos.y < this.numRows &&
-              pos.x >= 0 && pos.x < this.numCols;
+      return pos.getY() >= 0 && pos.getY() < this.numRows &&
+              pos.getX() >= 0 && pos.getX() < this.numCols;
    }
 
    public boolean isOccupied(Point pos)
@@ -189,22 +189,22 @@ final class WorldModel
 
    public Entity getOccupancyCell(Point pos)
    {
-      return this.occupancy[pos.y][pos.x];
+      return this.occupancy[pos.getY()][pos.getX()];
    }
 
    public void setOccupancyCell(Point pos, Entity entity)
    {
-      this.occupancy[pos.y][pos.x] = entity;
+      this.occupancy[pos.getY()][pos.getX()] = entity;
    }
 
    public Background getBackgroundCell(Point pos)
    {
-      return this.background[pos.y][pos.x];
+      return this.background[pos.getY()][pos.getX()];
    }
 
    public void setBackgroundCell(Point pos, Background background)
    {
-      this.background[pos.y][pos.x] = background;
+      this.background[pos.getY()][pos.getX()] = background;
    }
 
 

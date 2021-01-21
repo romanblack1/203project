@@ -6,10 +6,10 @@ Includes helpful helper functions to map between the viewport and the real world
 
 final class Viewport
 {
-   public int row;
-   public int col;
-   public int numRows;
-   public int numCols;
+   private int row;
+   private int col;
+   private final int numRows;
+   private final int numCols;
 
    public Viewport(int numRows, int numCols)
    {
@@ -36,8 +36,21 @@ final class Viewport
 
    public boolean contains(Point p)
    {
-      return p.y >= this.row && p.y < this.row + this.numRows &&
-              p.x >= this.col && p.x < this.col + this.numCols;
+      return p.getY() >= this.row && p.getY() < this.row + this.numRows &&
+              p.getX() >= this.col && p.getX() < this.col + this.numCols;
+   }
+
+   public int getRow(){
+      return this.row;
+   }
+   public int getCol(){
+      return this.col;
+   }
+   public int getNumRows(){
+      return this.numRows;
+   }
+   public int getNumCols(){
+      return this.numCols;
    }
 
 }

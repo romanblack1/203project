@@ -353,15 +353,15 @@ final class Action
    private Point nextPositionOcto(Entity entity, WorldModel world,
                                         Point destPos)
    {
-      int horiz = Integer.signum(destPos.x - entity.getPosition().x);
-      Point newPos = new Point(entity.getPosition().x + horiz,
-              entity.getPosition().y);
+      int horiz = Integer.signum(destPos.getX() - entity.getPosition().getX());
+      Point newPos = new Point(entity.getPosition().getX() + horiz,
+              entity.getPosition().getY());
 
       if (horiz == 0 || world.isOccupied(newPos))
       {
-         int vert = Integer.signum(destPos.y - entity.getPosition().y);
-         newPos = new Point(entity.getPosition().x,
-                 entity.getPosition().y + vert);
+         int vert = Integer.signum(destPos.getY() - entity.getPosition().getY());
+         newPos = new Point(entity.getPosition().getX(),
+                 entity.getPosition().getY() + vert);
 
          if (vert == 0 || world.isOccupied(newPos))
          {
@@ -375,17 +375,17 @@ final class Action
    private Point nextPositionCrab(Entity entity, WorldModel world,
                                         Point destPos)
    {
-      int horiz = Integer.signum(destPos.x - entity.getPosition().x);
-      Point newPos = new Point(entity.getPosition().x + horiz,
-              entity.getPosition().y);
+      int horiz = Integer.signum(destPos.getX() - entity.getPosition().getX());
+      Point newPos = new Point(entity.getPosition().getX() + horiz,
+              entity.getPosition().getY());
 
       Optional<Entity> occupant = world.getOccupant(newPos);
 
       if (horiz == 0 ||
               (occupant.isPresent() && !(occupant.get().getKind() == EntityKind.FISH)))
       {
-         int vert = Integer.signum(destPos.y - entity.getPosition().y);
-         newPos = new Point(entity.getPosition().x, entity.getPosition().y + vert);
+         int vert = Integer.signum(destPos.getY() - entity.getPosition().getY());
+         newPos = new Point(entity.getPosition().getX(), entity.getPosition().getY() + vert);
          occupant = world.getOccupant(newPos);
 
          if (vert == 0 ||

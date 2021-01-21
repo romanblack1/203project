@@ -6,9 +6,9 @@ EventScheduler: ideally our way of controlling what happens in our virtual world
 
 final class EventScheduler
 {
-   public PriorityQueue<Event> eventQueue;
-   public Map<Entity, List<Event>> pendingEvents;
-   public double timeScale;
+   private PriorityQueue<Event> eventQueue;
+   private Map<Entity, List<Event>> pendingEvents;
+   private double timeScale;
 
    public EventScheduler(double timeScale)
    {
@@ -47,7 +47,7 @@ final class EventScheduler
 
    public void removePendingEvent(Event event)
    {
-      List<Event> pending = this.pendingEvents.get(event.entity);
+      List<Event> pending = this.pendingEvents.get(event.getEntity());
 
       if (pending != null)
       {
@@ -58,19 +58,19 @@ final class EventScheduler
    public void updateOnTime(long time)
    {
       while (!this.eventQueue.isEmpty() &&
-              this.eventQueue.peek().time < time)
+              this.eventQueue.peek().getTime() < time)
       {
          Event next = this.eventQueue.poll();
 
          this.removePendingEvent(next);
 
-         next.action.executeAction(this);
+         next.getAction().executeAction(this);
       }
    }
 
 
-   public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
-   public static final int ATLANTIS_ANIMATION_REPEAT_COUNT = 7;
+   private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
+   private static final int ATLANTIS_ANIMATION_REPEAT_COUNT = 7;
    public void scheduleActions(Entity entity, WorldModel world, ImageStore imageStore)
    {
       switch (entity.getKind())
