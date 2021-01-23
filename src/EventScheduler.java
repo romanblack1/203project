@@ -6,9 +6,9 @@ EventScheduler: ideally our way of controlling what happens in our virtual world
 
 final class EventScheduler
 {
-   private PriorityQueue<Event> eventQueue;
-   private Map<Entity, List<Event>> pendingEvents;
-   private double timeScale;
+   private final PriorityQueue<Event> eventQueue;
+   private final Map<Entity, List<Event>> pendingEvents;
+   private final double timeScale;
 
    public EventScheduler(double timeScale)
    {

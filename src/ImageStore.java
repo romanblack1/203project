@@ -10,8 +10,8 @@ ImageStore: to ideally keep track of the images used in our virtual world
 
 final class ImageStore
 {
-   private Map<String, List<PImage>> images;
-   private List<PImage> defaultImages;
+   private final Map<String, List<PImage>> images;
+   private final List<PImage> defaultImages;
 
    public ImageStore(PImage defaultImage)
    {
