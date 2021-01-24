@@ -271,7 +271,7 @@ final class Action
    private boolean moveToNotFull(Entity octo, WorldModel world,
                                        Entity target, EventScheduler scheduler)
    {
-      if (octo.getPosition().adjacent(target.getPosition()))
+      if (world.adjacent(octo.getPosition(), target.getPosition()))
       {
          octo.setResourceCount(octo.getResourceCount()+1);
          world.removeEntity(target);
@@ -300,7 +300,7 @@ final class Action
    private boolean moveToFull(Entity octo, WorldModel world,
                                     Entity target, EventScheduler scheduler)
    {
-      if (octo.getPosition().adjacent(target.getPosition()))
+      if (world.adjacent(octo.getPosition(), target.getPosition()))
       {
          return true;
       }
@@ -325,7 +325,7 @@ final class Action
    private boolean moveToCrab(Entity crab, WorldModel world,
                                     Entity target, EventScheduler scheduler)
    {
-      if (crab.getPosition().adjacent(target.getPosition()))
+      if (world.adjacent(crab.getPosition(), target.getPosition()))
       {
          world.removeEntity(target);
          scheduler.unscheduleAllEvents(target);
