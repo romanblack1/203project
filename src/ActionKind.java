@@ -1,5 +1,5 @@
-enum ActionKind
-{
-   ACTIVITY,
-   ANIMATION
-}
+//enum ActionKind
+//{
+//   ACTIVITY,
+//   ANIMATION
+//}
