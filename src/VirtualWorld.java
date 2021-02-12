@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import processing.core.*;
 
+import javax.swing.text.EditorKit;
+
 /*
 VirtualWorld is our main wrapper
 It keeps track of data necessary to use Processing for drawing but also keeps track of the necessary
@@ -165,8 +167,9 @@ public final class VirtualWorld
       for (Entity entity : world.getEntities())
       {
          //Only start actions for entities that include action (not those with just animations)
-         if (entity.getActionPeriod() > 0)
-            scheduler.scheduleActions(entity, world, imageStore);
+         if (entity instanceof Executable) {
+            ((Executable) entity).scheduleActions(scheduler, world, imageStore);
+         }
       }
    }
 

@@ -7,14 +7,16 @@ import java.util.Random;
 public class Octo_Full extends Octo{
     private final String id;
     private final int resourceLimit;
+    private final int actionPeriod;
 
     public Octo_Full(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        super(position, images, actionPeriod, resourceCount, animationPeriod);
+        super(position, images, resourceCount, animationPeriod);
         this.id = id;
         this.resourceLimit = resourceLimit;
+        this.actionPeriod = actionPeriod;
     }
 
 
@@ -25,13 +27,13 @@ public class Octo_Full extends Octo{
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Optional<Entity> fullTarget = world.findNearest(super.getPosition(),
-                "Atlantis");
+                Atlantis.class);
 
         if (fullTarget.isPresent() &&
                 moveToFull(this, world, fullTarget.get(), scheduler))
         {
             //at atlantis trigger animation
-            scheduler.scheduleActions(fullTarget.get(), world, imageStore);
+            ((Executable)fullTarget.get()).scheduleActions(scheduler, world, imageStore);
 
             //transform to unfull
             transformFull(world, scheduler, imageStore);
@@ -39,22 +41,22 @@ public class Octo_Full extends Octo{
         else
         {
             scheduler.scheduleEvent(this, scheduler.createActivityAction(this, world, imageStore),
-                    super.getActionPeriod());
+                    this.actionPeriod);
         }
     }
 
     private void transformFull(WorldModel world,
                                EventScheduler scheduler, ImageStore imageStore)
     {
-        Entity octo = world.createOctoNotFull(this.id, this.resourceLimit,
-                super.getPosition(), super.getActionPeriod(), super.getAnimationPeriod(),
+        Octo_Not_Full octo = world.createOctoNotFull(this.id, this.resourceLimit,
+                super.getPosition(), this.actionPeriod, super.getAnimationPeriod(),
                 super.getImages());
 
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
         world.addEntity(octo);
-        scheduler.scheduleActions(octo, world, imageStore);
+        octo.scheduleActions(scheduler, world, imageStore);
     }
 
 
@@ -103,6 +105,15 @@ public class Octo_Full extends Octo{
         }
 
         return newPos;
+    }
+
+
+    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
+        scheduler.scheduleEvent(this,
+                scheduler.createActivityAction(this, world, imageStore),
+                this.actionPeriod);
+        scheduler.scheduleEvent(this, scheduler.createAnimationAction(this, 0),
+                super.getAnimationPeriod());
     }
 
 

@@ -7,13 +7,15 @@ import java.util.Random;
 public class Fish extends Executable{
     private final String id;
     private int imageIndex;
+    private final int actionPeriod;
 
     public Fish(String id, Point position,
                 List<PImage> images, int resourceLimit, int resourceCount,
                 int actionPeriod, int animationPeriod)
     {
-        super(position, images, actionPeriod);
+        super(position, images);
         this.id = id;
+        this.actionPeriod = actionPeriod;
     }
 
     public int getAnimationPeriod()
@@ -41,14 +43,21 @@ public class Fish extends Executable{
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
-        Entity crab = world.createCrab(this.id + CRAB_ID_SUFFIX,
-                pos, super.getActionPeriod() / CRAB_PERIOD_SCALE,
+        Crab crab = world.createCrab(this.id + CRAB_ID_SUFFIX,
+                pos, this.actionPeriod / CRAB_PERIOD_SCALE,
                 CRAB_ANIMATION_MIN +
                         rand.nextInt(CRAB_ANIMATION_MAX - CRAB_ANIMATION_MIN),
                 imageStore.getImageList(CRAB_KEY));
 
         world.addEntity(crab);
-        scheduler.scheduleActions(crab, world, imageStore);
+        crab.scheduleActions(scheduler, world, imageStore);
+    }
+
+
+    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
+        scheduler.scheduleEvent(this,
+                scheduler.createActivityAction(this, world, imageStore),
+                this.actionPeriod);
     }
 
 

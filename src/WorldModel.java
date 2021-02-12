@@ -102,7 +102,7 @@ final class WorldModel
       }
    }
 
-   public Optional<Entity> findNearest(Point pos, String kind)
+   public Optional<Entity> findNearest(Point pos, Class kind)
    {
       List<Entity> ofType = new LinkedList<>();
       for (Entity entity : this.entities)
@@ -407,7 +407,7 @@ final class WorldModel
    }
 
 
-   private Entity createAtlantis(String id, Point position,
+   private Atlantis createAtlantis(String id, Point position,
                                 List<PImage> images)
    {
       return new Atlantis(id, position, images,
@@ -415,7 +415,7 @@ final class WorldModel
    }
 
 
-   public Entity createOctoNotFull(String id, int resourceLimit,
+   public Octo_Not_Full createOctoNotFull(String id, int resourceLimit,
                                    Point position, int actionPeriod, int animationPeriod,
                                    List<PImage> images)
    {
@@ -423,28 +423,28 @@ final class WorldModel
               resourceLimit, 0, actionPeriod, animationPeriod);
    }
 
-   private Entity createObstacle(String id, Point position,
+   private Obstacle createObstacle(String id, Point position,
                                 List<PImage> images)
    {
       return new Obstacle(id, position, images,
               0, 0, 0, 0);
    }
 
-   public Entity createFish(String id, Point position, int actionPeriod,
+   public Fish createFish(String id, Point position, int actionPeriod,
                             List<PImage> images)
    {
       return new Fish(id, position, images, 0, 0,
               actionPeriod, 0);
    }
 
-   private Entity createSgrass(String id, Point position, int actionPeriod,
+   private Sgrass createSgrass(String id, Point position, int actionPeriod,
                               List<PImage> images)
    {
       return new Sgrass(id, position, images, 0, 0,
               actionPeriod, 0);
    }
 
-   public Entity createOctoFull(String id, int resourceLimit,
+   public Octo_Full createOctoFull(String id, int resourceLimit,
                                 Point position, int actionPeriod, int animationPeriod,
                                 List<PImage> images)
    {
@@ -452,14 +452,14 @@ final class WorldModel
               resourceLimit, resourceLimit, actionPeriod, animationPeriod);
    }
 
-   public Entity createCrab(String id, Point position,
+   public Crab createCrab(String id, Point position,
                             int actionPeriod, int animationPeriod, List<PImage> images)
    {
       return new Crab(id, position, images,
               0, 0, actionPeriod, animationPeriod);
    }
 
-   public Entity createQuake(Point position, List<PImage> images)
+   public Quake createQuake(Point position, List<PImage> images)
    {
       return new Quake(QUAKE_ID, position, images,
               0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);

@@ -10,7 +10,7 @@ public class Obstacle extends Entity{
                     List<PImage> images, int resourceLimit, int resourceCount,
                     int actionPeriod, int animationPeriod)
     {
-        super(position, images, actionPeriod);
+        super(position, images);
     }
 
     public int getAnimationPeriod()

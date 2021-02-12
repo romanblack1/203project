@@ -5,13 +5,15 @@ import java.util.Optional;
 
 public class Crab extends Executable{
     private final int animationPeriod;
+    private final int actionPeriod;
 
     public Crab(String id, Point position,
                 List<PImage> images, int resourceLimit, int resourceCount,
                 int actionPeriod, int animationPeriod)
     {
-        super(position, images, actionPeriod);
+        super(position, images);
         this.animationPeriod = animationPeriod;
+        this.actionPeriod = actionPeriod;
     }
 
     public int getAnimationPeriod()
@@ -27,8 +29,8 @@ public class Crab extends Executable{
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> crabTarget = world.findNearest(super.getPosition(), "Sgrass");
-        long nextPeriod = super.getActionPeriod();
+        Optional<Entity> crabTarget = world.findNearest(super.getPosition(), Sgrass.class);
+        long nextPeriod = this.actionPeriod;
 
         if (crabTarget.isPresent())
         {
@@ -36,12 +38,12 @@ public class Crab extends Executable{
 
             if (moveToCrab(this, world, crabTarget.get(), scheduler))
             {
-                Entity quake = world.createQuake(tgtPos,
+                Quake quake = world.createQuake(tgtPos,
                         imageStore.getImageList(QUAKE_KEY));
 
                 world.addEntity(quake);
-                nextPeriod += super.getActionPeriod();
-                scheduler.scheduleActions(quake, world, imageStore);
+                nextPeriod += this.actionPeriod;
+                quake.scheduleActions(scheduler, world, imageStore);
             }
         }
 
@@ -102,6 +104,14 @@ public class Crab extends Executable{
         }
 
         return newPos;
+    }
+
+    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
+        scheduler.scheduleEvent(this,
+                scheduler.createActivityAction(this, world, imageStore),
+                this.actionPeriod);
+        scheduler.scheduleEvent(this,
+                scheduler.createAnimationAction(this, 0), this.animationPeriod);
     }
 
 

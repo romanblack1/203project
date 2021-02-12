@@ -14,14 +14,12 @@ public abstract class Entity
    private Point position;
    private final List<PImage> images;
    private int imageIndex;
-   private final int actionPeriod;
 
-   public Entity(Point position, List<PImage> images, int actionPeriod)
+   public Entity(Point position, List<PImage> images)
    {
       this.position = position;
       this.images = images;
       this.imageIndex = 0;
-      this.actionPeriod = actionPeriod;
    }
 
    abstract int getAnimationPeriod();
@@ -47,10 +45,6 @@ public abstract class Entity
 
    public int getImageIndex(){
       return this.imageIndex;
-   }
-
-   public int getActionPeriod(){
-      return this.actionPeriod;
    }
 
 }

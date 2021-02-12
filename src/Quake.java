@@ -6,13 +6,15 @@ import java.util.Random;
 
 public class Quake extends Executable{
     private final int animationPeriod;
+    private final int actionPeriod;
 
     public Quake(String id, Point position,
                  List<PImage> images, int resourceLimit, int resourceCount,
                  int actionPeriod, int animationPeriod)
     {
-        super(position, images, actionPeriod);
+        super(position, images);
         this.animationPeriod = animationPeriod;
+        this.actionPeriod = actionPeriod;
     }
 
     public int getAnimationPeriod()
@@ -29,6 +31,16 @@ public class Quake extends Executable{
     {
         scheduler.unscheduleAllEvents(this);
         world.removeEntity(this);
+    }
+
+    private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
+    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
+        scheduler.scheduleEvent(this,
+                scheduler.createActivityAction(this, world, imageStore),
+                this.actionPeriod);
+        scheduler.scheduleEvent(this,
+                scheduler.createAnimationAction(this, QUAKE_ANIMATION_REPEAT_COUNT),
+                this.animationPeriod);
     }
 
 

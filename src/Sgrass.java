@@ -6,13 +6,15 @@ import java.util.Random;
 
 public class Sgrass extends Executable{
     private final String id;
+    private final int actionPeriod;
 
     public Sgrass(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        super(position, images, actionPeriod);
+        super(position, images);
         this.id = id;
+        this.actionPeriod = actionPeriod;
     }
 
     public int getAnimationPeriod()
@@ -38,17 +40,23 @@ public class Sgrass extends Executable{
 
         if (openPt.isPresent())
         {
-            Entity fish = world.createFish(FISH_ID_PREFIX + this.id,
+            Fish fish = world.createFish(FISH_ID_PREFIX + this.id,
                     openPt.get(), FISH_CORRUPT_MIN +
                             rand.nextInt(FISH_CORRUPT_MAX - FISH_CORRUPT_MIN),
                     imageStore.getImageList(FISH_KEY));
             world.addEntity(fish);
-            scheduler.scheduleActions(fish, world, imageStore);
+            fish.scheduleActions(scheduler, world, imageStore);
         }
 
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                super.getActionPeriod());
+                this.actionPeriod);
+    }
+
+    public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
+        scheduler.scheduleEvent(this,
+                scheduler.createActivityAction(this, world, imageStore),
+                this.actionPeriod);
     }
 
 }

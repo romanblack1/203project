@@ -7,9 +7,9 @@ public abstract class Octo extends Executable{
     private final int animationPeriod;
     private int resourceCount;
 
-    public Octo(Point position, List<PImage> images, int actionPeriod, int resourceCount, int animationPeriod)
+    public Octo(Point position, List<PImage> images, int resourceCount, int animationPeriod)
     {
-        super(position, images, actionPeriod);
+        super(position, images);
         this.resourceCount = resourceCount;
         this.animationPeriod = animationPeriod;
     }
