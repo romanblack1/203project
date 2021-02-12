@@ -73,8 +73,7 @@ final class EventScheduler
       return new Animation(entity, repeatCount);
    }
 
-   public Action createActivityAction(Executable entity, WorldModel world,
-                                             ImageStore imageStore)
+   public Action createActivityAction(Executable entity, WorldModel world, ImageStore imageStore)
    {
       return new Activity(entity, world, imageStore);
    }

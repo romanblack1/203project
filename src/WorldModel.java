@@ -165,7 +165,7 @@ final class WorldModel
    {
       if (withinBounds(pos))
       {
-         return Optional.of(this.getCurrentImage(getBackgroundCell(pos)));
+         return Optional.of(this.getBackgroundCell(pos).getCurrentImage());
       }
       else
       {
@@ -465,24 +465,24 @@ final class WorldModel
               0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
    }
 
-   public PImage getCurrentImage(Object entity)
-   {
-      if (entity instanceof Background)
-      {
-         return ((Background)entity).getImages()
-                 .get(((Background)entity).getImageIndex());
-      }
-      else if (entity instanceof Entity)
-      {
-         return ((Entity)entity).getImages().get(((Entity)entity).getImageIndex());
-      }
-      else
-      {
-         throw new UnsupportedOperationException(
-                 String.format("getCurrentImage not supported for %s",
-                         entity));
-      }
-   }
+//   public PImage getCurrentImage(Object entity)
+//   {
+//      if (entity instanceof Background)
+//      {
+//         return ((Background)entity).getImages()
+//                 .get(((Background)entity).getImageIndex());
+//      }
+//      else if (entity instanceof Entity)
+//      {
+//         return ((Entity)entity).getImages().get(((Entity)entity).getImageIndex());
+//      }
+//      else
+//      {
+//         throw new UnsupportedOperationException(
+//                 String.format("getCurrentImage not supported for %s",
+//                         entity));
+//      }
+//   }
 
 
    public int getNumRows(){

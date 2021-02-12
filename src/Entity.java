@@ -47,4 +47,9 @@ public abstract class Entity
       return this.imageIndex;
    }
 
+   public PImage getCurrentImage() {
+      return (this.images.get(this.imageIndex));
+   }
+
+
 }

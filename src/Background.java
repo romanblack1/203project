@@ -13,12 +13,9 @@ final class Background
       this.images = images;
    }
 
-   public List<PImage> getImages(){
-      return this.images;
-   }
-
-   public int getImageIndex(){
-      return this.imageIndex;
+   public PImage getCurrentImage()
+   {
+      return this.images.get(this.imageIndex);
    }
 
 }
