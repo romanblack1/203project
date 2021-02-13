@@ -43,7 +43,7 @@ public class Fish extends Executable{
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
-        Crab crab = world.createCrab(this.id + CRAB_ID_SUFFIX,
+        Crab crab = createCrab(this.id + CRAB_ID_SUFFIX,
                 pos, this.actionPeriod / CRAB_PERIOD_SCALE,
                 CRAB_ANIMATION_MIN +
                         rand.nextInt(CRAB_ANIMATION_MAX - CRAB_ANIMATION_MIN),
@@ -58,6 +58,13 @@ public class Fish extends Executable{
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
                 this.actionPeriod);
+    }
+
+    public Crab createCrab(String id, Point position,
+                           int actionPeriod, int animationPeriod, List<PImage> images)
+    {
+        return new Crab(id, position, images,
+                0, 0, actionPeriod, animationPeriod);
     }
 
 

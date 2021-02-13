@@ -16,7 +16,6 @@ abstract class Action
       this.entity = entity;
    }
 
-
    public abstract void executeAction(EventScheduler scheduler);
 
    public Executable getEntity() {

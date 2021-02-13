@@ -11,8 +11,8 @@ final class WorldModel
 {
    private final int numRows;
    private final int numCols;
-   private final Background background[][];
-   private final Entity occupancy[][];
+   private final Background[][] background;
+   private final Entity[][] occupancy;
    private final Set<Entity> entities;
 
    public WorldModel(int numRows, int numCols, Background defaultBackground)
@@ -213,9 +213,6 @@ final class WorldModel
       this.background[pos.getY()][pos.getX()] = background;
    }
 
-
-   private static final String FISH_KEY = "fish";
-
    private static final String OCTO_KEY = "octo";
    private static final int OCTO_NUM_PROPERTIES = 7;
    private static final int OCTO_ID = 1;
@@ -231,6 +228,7 @@ final class WorldModel
    private static final int OBSTACLE_COL = 2;
    private static final int OBSTACLE_ROW = 3;
 
+   private static final String FISH_KEY = "fish";
    private static final int FISH_NUM_PROPERTIES = 5;
    private static final int FISH_ID = 1;
    private static final int FISH_COL = 2;
@@ -258,9 +256,7 @@ final class WorldModel
 
    private static final int PROPERTY_KEY = 0;
 
-   private static final String QUAKE_ID = "quake";
-   private static final int QUAKE_ACTION_PERIOD = 1100;
-   private static final int QUAKE_ANIMATION_PERIOD = 100;
+
 
    public void load(Scanner in, ImageStore imageStore)
    {
@@ -334,7 +330,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[OCTO_COL]),
                  Integer.parseInt(properties[OCTO_ROW]));
-         Entity entity = createOctoNotFull(properties[OCTO_ID],
+         Octo_Not_Full entity = createOctoNotFull(properties[OCTO_ID],
                  Integer.parseInt(properties[OCTO_LIMIT]),
                  pt,
                  Integer.parseInt(properties[OCTO_ACTION_PERIOD]),
@@ -353,7 +349,7 @@ final class WorldModel
          Point pt = new Point(
                  Integer.parseInt(properties[OBSTACLE_COL]),
                  Integer.parseInt(properties[OBSTACLE_ROW]));
-         Entity entity = createObstacle(properties[OBSTACLE_ID],
+         Obstacle entity = createObstacle(properties[OBSTACLE_ID],
                  pt, imageStore.getImageList(OBSTACLE_KEY));
          this.tryAddEntity(entity);
       }
@@ -367,7 +363,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[FISH_COL]),
                  Integer.parseInt(properties[FISH_ROW]));
-         Entity entity = createFish(properties[FISH_ID],
+         Fish entity = createFish(properties[FISH_ID],
                  pt, Integer.parseInt(properties[FISH_ACTION_PERIOD]),
                  imageStore.getImageList(FISH_KEY));
          this.tryAddEntity(entity);
@@ -382,7 +378,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[ATLANTIS_COL]),
                  Integer.parseInt(properties[ATLANTIS_ROW]));
-         Entity entity = createAtlantis(properties[ATLANTIS_ID],
+         Atlantis entity = createAtlantis(properties[ATLANTIS_ID],
                  pt, imageStore.getImageList(ATLANTIS_KEY));
          this.tryAddEntity(entity);
       }
@@ -396,7 +392,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[SGRASS_COL]),
                  Integer.parseInt(properties[SGRASS_ROW]));
-         Entity entity = createSgrass(properties[SGRASS_ID],
+         Sgrass entity = createSgrass(properties[SGRASS_ID],
                  pt,
                  Integer.parseInt(properties[SGRASS_ACTION_PERIOD]),
                  imageStore.getImageList(SGRASS_KEY));
@@ -443,46 +439,6 @@ final class WorldModel
       return new Sgrass(id, position, images, 0, 0,
               actionPeriod, 0);
    }
-
-   public Octo_Full createOctoFull(String id, int resourceLimit,
-                                Point position, int actionPeriod, int animationPeriod,
-                                List<PImage> images)
-   {
-      return new Octo_Full(id, position, images,
-              resourceLimit, resourceLimit, actionPeriod, animationPeriod);
-   }
-
-   public Crab createCrab(String id, Point position,
-                            int actionPeriod, int animationPeriod, List<PImage> images)
-   {
-      return new Crab(id, position, images,
-              0, 0, actionPeriod, animationPeriod);
-   }
-
-   public Quake createQuake(Point position, List<PImage> images)
-   {
-      return new Quake(QUAKE_ID, position, images,
-              0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
-   }
-
-//   public PImage getCurrentImage(Object entity)
-//   {
-//      if (entity instanceof Background)
-//      {
-//         return ((Background)entity).getImages()
-//                 .get(((Background)entity).getImageIndex());
-//      }
-//      else if (entity instanceof Entity)
-//      {
-//         return ((Entity)entity).getImages().get(((Entity)entity).getImageIndex());
-//      }
-//      else
-//      {
-//         throw new UnsupportedOperationException(
-//                 String.format("getCurrentImage not supported for %s",
-//                         entity));
-//      }
-//   }
 
 
    public int getNumRows(){

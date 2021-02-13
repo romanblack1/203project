@@ -6,17 +6,15 @@ import java.util.Random;
 
 public class Octo_Not_Full extends Octo{
     private final String id;
-    private final int resourceLimit;
     private final int actionPeriod;
 
     public Octo_Not_Full(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        super(position, images, resourceCount, animationPeriod);
-        this.id = id;
-        this.resourceLimit = resourceLimit;
+        super(position, images, resourceLimit, resourceCount, animationPeriod);
         this.actionPeriod = actionPeriod;
+        this.id = id;
     }
 
     public Class getKind(){
@@ -38,29 +36,22 @@ public class Octo_Not_Full extends Octo{
         }
     }
 
-    private boolean transformNotFull(WorldModel world,
-                                     EventScheduler scheduler, ImageStore imageStore)
+    private boolean transformNotFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
-        if (super.getResourceCount() >= super.getResourceCount())
+        if (super.getResourceCount() >= super.getResourceLimit())
         {
-            Octo_Full octo = world.createOctoFull(this.id, this.resourceLimit,
+            Octo_Full octo = createOctoFull(this.id, super.getResourceLimit(),
                     super.getPosition(), this.actionPeriod, super.getAnimationPeriod(),
                     super.getImages());
 
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents(this);
-
-            world.addEntity(octo);
-            octo.scheduleActions(scheduler, world, imageStore);
+            super.transform(octo, world, scheduler, imageStore);
 
             return true;
         }
-
         return false;
     }
 
-    private boolean moveToNotFull(Entity octo, WorldModel world,
-                                  Entity target, EventScheduler scheduler)
+    private boolean moveToNotFull(Entity octo, WorldModel world, Entity target, EventScheduler scheduler)
     {
         if (world.adjacent(octo.getPosition(), target.getPosition()))
         {
@@ -72,42 +63,9 @@ public class Octo_Not_Full extends Octo{
         }
         else
         {
-            Point nextPos = nextPositionOcto(world, target.getPosition());
-
-            if (!octo.getPosition().equals(nextPos))
-            {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent())
-                {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(octo, nextPos);
-            }
+            moveToPartTwo(octo, world, target, scheduler);
             return false;
         }
-    }
-
-    private Point nextPositionOcto(WorldModel world,
-                                   Point destPos)
-    {
-        int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
-        Point newPos = new Point(super.getPosition().getX() + horiz,
-                super.getPosition().getY());
-
-        if (horiz == 0 || world.isOccupied(newPos))
-        {
-            int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
-            newPos = new Point(super.getPosition().getX(),
-                    super.getPosition().getY() + vert);
-
-            if (vert == 0 || world.isOccupied(newPos))
-            {
-                newPos = super.getPosition();
-            }
-        }
-
-        return newPos;
     }
 
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
@@ -118,4 +76,12 @@ public class Octo_Not_Full extends Octo{
                 scheduler.createAnimationAction(this, 0), super.getAnimationPeriod());
     }
 
+
+    public Octo_Full createOctoFull(String id, int resourceLimit,
+                                    Point position, int actionPeriod, int animationPeriod,
+                                    List<PImage> images)
+    {
+        return new Octo_Full(id, position, images,
+                resourceLimit, resourceLimit, actionPeriod, animationPeriod);
+    }
 }

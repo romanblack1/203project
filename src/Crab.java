@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class Crab extends Executable{
+public class Crab extends ExtraExecutable{
     private final int animationPeriod;
     private final int actionPeriod;
 
@@ -38,7 +38,7 @@ public class Crab extends Executable{
 
             if (moveToCrab(this, world, crabTarget.get(), scheduler))
             {
-                Quake quake = world.createQuake(tgtPos,
+                Quake quake = createQuake(tgtPos,
                         imageStore.getImageList(QUAKE_KEY));
 
                 world.addEntity(quake);
@@ -52,8 +52,7 @@ public class Crab extends Executable{
                 nextPeriod);
     }
 
-    private boolean moveToCrab(Entity crab, WorldModel world,
-                               Entity target, EventScheduler scheduler)
+    private boolean moveToCrab(Entity crab, WorldModel world, Entity target, EventScheduler scheduler)
     {
         if (world.adjacent(crab.getPosition(), target.getPosition()))
         {
@@ -63,25 +62,13 @@ public class Crab extends Executable{
         }
         else
         {
-            Point nextPos = nextPositionCrab(world, target.getPosition());
-
-            if (!crab.getPosition().equals(nextPos))
-            {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent())
-                {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(crab, nextPos);
-            }
+            moveToPartTwo(crab, world, target, scheduler);
             return false;
         }
     }
 
 
-    private Point nextPositionCrab(WorldModel world,
-                                   Point destPos)
+    protected Point nextPosition(WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
         Point newPos = new Point(super.getPosition().getX() + horiz,
@@ -114,5 +101,13 @@ public class Crab extends Executable{
                 scheduler.createAnimationAction(this, 0), this.animationPeriod);
     }
 
+    private static final String QUAKE_ID = "quake";
+    private static final int QUAKE_ACTION_PERIOD = 1100;
+    private static final int QUAKE_ANIMATION_PERIOD = 100;
+    public Quake createQuake(Point position, List<PImage> images)
+    {
+        return new Quake(QUAKE_ID, position, images,
+                0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
+    }
 
 }
