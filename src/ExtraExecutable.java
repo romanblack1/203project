@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ExtraExecutable extends Executable{
+public abstract class ExtraExecutable extends Animatable{
 
     public ExtraExecutable(Point position, List<PImage> images) {
         super(position, images);

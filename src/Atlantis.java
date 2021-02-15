@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Atlantis extends Executable{
+public class Atlantis extends Animatable{
     private final int animationPeriod;
 
     public Atlantis(String id, Point position,

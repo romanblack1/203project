@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class Quake extends Executable{
+public class Quake extends Animatable{
     private final int animationPeriod;
     private final int actionPeriod;
 
