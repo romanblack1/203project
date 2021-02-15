@@ -59,7 +59,7 @@ public class Fish extends Executable{
                 this.actionPeriod);
     }
 
-    public Crab createCrab(String id, Point position,
+    private Crab createCrab(String id, Point position,
                            int actionPeriod, int animationPeriod, List<PImage> images)
     {
         return new Crab(id, position, images,

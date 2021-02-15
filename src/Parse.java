@@ -40,7 +40,6 @@ public class Parse {
     private static final String FISH_KEY = "fish";
     private static final String ATLANTIS_KEY = "atlantis";
     private static final String SGRASS_KEY = "seaGrass";
-    private static final String BGND_KEY = "background";
 
     public static boolean background(WorldModel world, String [] properties, ImageStore imageStore)
     {

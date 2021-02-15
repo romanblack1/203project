@@ -58,7 +58,6 @@ public class Octo_Not_Full extends Octo{
             ((Octo)octo).setResourceCount(((Octo)octo).getResourceCount()+1);
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
-
             return true;
         }
         else
@@ -77,7 +76,7 @@ public class Octo_Not_Full extends Octo{
     }
 
 
-    public Octo_Full createOctoFull(String id, int resourceLimit,
+    private Octo_Full createOctoFull(String id, int resourceLimit,
                                     Point position, int actionPeriod, int animationPeriod,
                                     List<PImage> images)
     {

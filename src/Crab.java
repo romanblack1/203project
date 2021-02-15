@@ -104,7 +104,7 @@ public class Crab extends ExtraExecutable{
     private static final String QUAKE_ID = "quake";
     private static final int QUAKE_ACTION_PERIOD = 1100;
     private static final int QUAKE_ANIMATION_PERIOD = 100;
-    public Quake createQuake(Point position, List<PImage> images)
+    private Quake createQuake(Point position, List<PImage> images)
     {
         return new Quake(QUAKE_ID, position, images,
                 0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
