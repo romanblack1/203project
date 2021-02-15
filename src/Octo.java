@@ -18,11 +18,9 @@ public abstract class Octo extends ExtraExecutable{
         this.resourceLimit = resourceLimit;
     }
 
-    int getAnimationPeriod() {
+    public int getAnimationPeriod() {
         return animationPeriod;
     }
-
-    abstract Class getKind();
 
     public int getResourceCount() {
         return resourceCount;

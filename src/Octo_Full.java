@@ -45,7 +45,7 @@ public class Octo_Full extends Octo{
 
     private void transformFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
-        Octo_Not_Full octo = world.createOctoNotFull(id, super.getResourceLimit(),
+        Octo_Not_Full octo = Create.octoNotFull(id, super.getResourceLimit(),
                 super.getPosition(), actionPeriod, super.getAnimationPeriod(),
                 super.getImages());
         super.transform(octo, world, scheduler, imageStore);

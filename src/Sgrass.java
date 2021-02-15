@@ -40,7 +40,7 @@ public class Sgrass extends Executable{
 
         if (openPt.isPresent())
         {
-            Fish fish = world.createFish(FISH_ID_PREFIX + this.id,
+            Fish fish = Create.fish(FISH_ID_PREFIX + this.id,
                     openPt.get(), FISH_CORRUPT_MIN +
                             rand.nextInt(FISH_CORRUPT_MAX - FISH_CORRUPT_MIN),
                     imageStore.getImageList(FISH_KEY));

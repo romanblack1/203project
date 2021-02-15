@@ -11,4 +11,6 @@ public abstract class Executable extends Entity{
 
     public abstract void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore);
 
+    public abstract int getAnimationPeriod();
+
 }

@@ -6,7 +6,6 @@ import java.util.Random;
 
 public class Fish extends Executable{
     private final String id;
-    private int imageIndex;
     private final int actionPeriod;
 
     public Fish(String id, Point position,

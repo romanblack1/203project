@@ -3,7 +3,6 @@ import processing.core.PImage;
 import java.util.List;
 
 public class Atlantis extends Executable{
-    private int imageIndex;
     private final int animationPeriod;
 
     public Atlantis(String id, Point position,
@@ -22,11 +21,6 @@ public class Atlantis extends Executable{
     {
         return this.animationPeriod;
     }
-
-    public int getImageIndex(){
-        return this.imageIndex;
-    }
-
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {

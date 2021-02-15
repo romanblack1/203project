@@ -22,8 +22,6 @@ public abstract class Entity
       this.imageIndex = 0;
    }
 
-   abstract int getAnimationPeriod();
-
    abstract Class getKind();
 
    public void nextImage()
@@ -41,10 +39,6 @@ public abstract class Entity
 
    public List<PImage> getImages(){
       return this.images;
-   }
-
-   public int getImageIndex(){
-      return this.imageIndex;
    }
 
    public PImage getCurrentImage() {

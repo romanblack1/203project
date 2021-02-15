@@ -13,12 +13,6 @@ public class Obstacle extends Entity{
         super(position, images);
     }
 
-    public int getAnimationPeriod()
-    {
-        throw new UnsupportedOperationException(
-                String.format("getAnimationPeriod not supported for Obstacle"));
-    }
-
     public Class getKind(){
         return Obstacle.class;
     }
