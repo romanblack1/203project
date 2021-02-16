@@ -17,12 +17,6 @@ public class Fish extends Executable{
         this.actionPeriod = actionPeriod;
     }
 
-    public int getAnimationPeriod()
-    {
-        throw new UnsupportedOperationException(
-                String.format("getAnimationPeriod not supported for Fish"));
-    }
-
     public Class getKind(){
         return Fish.class;
     }

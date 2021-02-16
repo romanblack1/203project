@@ -17,12 +17,6 @@ public class Sgrass extends Executable{
         this.actionPeriod = actionPeriod;
     }
 
-    public int getAnimationPeriod()
-    {
-        throw new UnsupportedOperationException(
-                String.format("getAnimationPeriod not supported for SGrass"));
-    }
-
     public Class getKind(){
         return Sgrass.class;
     }
