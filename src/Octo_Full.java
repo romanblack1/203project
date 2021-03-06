@@ -6,21 +6,15 @@ import java.util.Random;
 
 public class Octo_Full extends Octo{
     private final String id;
-    private final int actionPeriod;
 
     public Octo_Full(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        super(position, images, resourceLimit, resourceCount, animationPeriod);
+        super(position, images, resourceLimit, resourceCount, actionPeriod, animationPeriod);
         this.id = id;
-        this.actionPeriod = actionPeriod;
     }
 
-
-    public Class getKind(){
-        return Octo_Full.class;
-    }
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
@@ -39,14 +33,14 @@ public class Octo_Full extends Octo{
         else
         {
             scheduler.scheduleEvent(this, scheduler.createActivityAction(this, world, imageStore),
-                    this.actionPeriod);
+                    super.getActionPeriod());
         }
     }
 
     private void transformFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
         Octo_Not_Full octo = Create.octoNotFull(id, super.getResourceLimit(),
-                super.getPosition(), actionPeriod, super.getAnimationPeriod(),
+                super.getPosition(), super.getActionPeriod(), super.getAnimationPeriod(),
                 super.getImages());
         super.transform(octo, world, scheduler, imageStore);
     }
@@ -69,7 +63,7 @@ public class Octo_Full extends Octo{
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
         scheduler.scheduleEvent(this, scheduler.createAnimationAction(this, 0),
                 super.getAnimationPeriod());
     }

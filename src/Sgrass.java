@@ -6,19 +6,13 @@ import java.util.Random;
 
 public class Sgrass extends Executable{
     private final String id;
-    private final int actionPeriod;
 
     public Sgrass(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        super(position, images);
+        super(position, images, actionPeriod);
         this.id = id;
-        this.actionPeriod = actionPeriod;
-    }
-
-    public Class getKind(){
-        return Sgrass.class;
     }
 
     private static final Random rand = new Random();
@@ -44,13 +38,13 @@ public class Sgrass extends Executable{
 
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
     }
 
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
     }
 
 }

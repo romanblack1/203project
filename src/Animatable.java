@@ -4,10 +4,15 @@ import java.util.List;
 
 public abstract class Animatable extends Executable{
 
-    public Animatable(Point position, List<PImage> images) {
-        super(position, images);
+    private final int animationPeriod;
+
+    public Animatable(Point position, List<PImage> images, int actionPeriod, int animationPeriod) {
+        super(position, images, actionPeriod);
+        this.animationPeriod = animationPeriod;
     }
 
-    public abstract int getAnimationPeriod();
+    public int getAnimationPeriod(){
+        return animationPeriod;
+    }
 
 }

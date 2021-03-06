@@ -22,8 +22,6 @@ public abstract class Entity
       this.imageIndex = 0;
    }
 
-   abstract Class getKind();
-
    public void nextImage()
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();

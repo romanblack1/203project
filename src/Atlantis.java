@@ -3,23 +3,12 @@ import processing.core.PImage;
 import java.util.List;
 
 public class Atlantis extends Animatable{
-    private final int animationPeriod;
 
     public Atlantis(String id, Point position,
                     List<PImage> images, int resourceLimit, int resourceCount,
                     int actionPeriod, int animationPeriod)
     {
-        super(position, images);
-        this.animationPeriod = animationPeriod;
-    }
-
-    public Class getKind(){
-        return Atlantis.class;
-    }
-
-    public int getAnimationPeriod()
-    {
-        return this.animationPeriod;
+        super(position, images, actionPeriod, animationPeriod);
     }
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
@@ -32,7 +21,7 @@ public class Atlantis extends Animatable{
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
         scheduler.createAnimationAction(this, ATLANTIS_ANIMATION_REPEAT_COUNT),
-        this.animationPeriod);
+        super.getAnimationPeriod());
     }
 
 

@@ -6,19 +6,13 @@ import java.util.Random;
 
 public class Fish extends Executable{
     private final String id;
-    private final int actionPeriod;
 
     public Fish(String id, Point position,
                 List<PImage> images, int resourceLimit, int resourceCount,
                 int actionPeriod, int animationPeriod)
     {
-        super(position, images);
+        super(position, images, actionPeriod);
         this.id = id;
-        this.actionPeriod = actionPeriod;
-    }
-
-    public Class getKind(){
-        return Fish.class;
     }
 
     private static final Random rand = new Random();
@@ -37,7 +31,7 @@ public class Fish extends Executable{
         scheduler.unscheduleAllEvents(this);
 
         Crab crab = createCrab(this.id + CRAB_ID_SUFFIX,
-                pos, this.actionPeriod / CRAB_PERIOD_SCALE,
+                pos, super.getActionPeriod() / CRAB_PERIOD_SCALE,
                 CRAB_ANIMATION_MIN +
                         rand.nextInt(CRAB_ANIMATION_MAX - CRAB_ANIMATION_MIN),
                 imageStore.getImageList(CRAB_KEY));
@@ -50,7 +44,7 @@ public class Fish extends Executable{
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
     }
 
     private Crab createCrab(String id, Point position,

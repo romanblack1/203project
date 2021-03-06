@@ -13,8 +13,4 @@ public class Obstacle extends Entity{
         super(position, images);
     }
 
-    public Class getKind(){
-        return Obstacle.class;
-    }
-
 }

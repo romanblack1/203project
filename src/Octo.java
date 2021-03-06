@@ -4,22 +4,16 @@ import java.util.List;
 
 public abstract class Octo extends ExtraExecutable{
 
-    private final int animationPeriod;
     private int resourceCount;
     private final int resourceLimit;
 
 
-    public Octo(Point position,
-                List<PImage> images, int resourceLimit, int resourceCount, int animationPeriod)
+    public Octo(Point position, List<PImage> images, int resourceLimit, int resourceCount,
+                int actionPeriod,int animationPeriod)
     {
-        super(position, images);
+        super(position, images, actionPeriod, animationPeriod);
         this.resourceCount = resourceCount;
-        this.animationPeriod = animationPeriod;
         this.resourceLimit = resourceLimit;
-    }
-
-    public int getAnimationPeriod() {
-        return animationPeriod;
     }
 
     public int getResourceCount() {

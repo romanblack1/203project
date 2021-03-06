@@ -6,19 +6,13 @@ import java.util.Random;
 
 public class Octo_Not_Full extends Octo{
     private final String id;
-    private final int actionPeriod;
 
     public Octo_Not_Full(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        super(position, images, resourceLimit, resourceCount, animationPeriod);
-        this.actionPeriod = actionPeriod;
+        super(position, images, resourceLimit, resourceCount, actionPeriod, animationPeriod);
         this.id = id;
-    }
-
-    public Class getKind(){
-        return Octo_Not_Full.class;
     }
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
@@ -32,7 +26,7 @@ public class Octo_Not_Full extends Octo{
         {
             scheduler.scheduleEvent(this,
                     scheduler.createActivityAction(this, world, imageStore),
-                    this.actionPeriod);
+                    super.getActionPeriod());
         }
     }
 
@@ -41,7 +35,7 @@ public class Octo_Not_Full extends Octo{
         if (super.getResourceCount() >= super.getResourceLimit())
         {
             Octo_Full octo = createOctoFull(this.id, super.getResourceLimit(),
-                    super.getPosition(), this.actionPeriod, super.getAnimationPeriod(),
+                    super.getPosition(), super.getActionPeriod(), super.getAnimationPeriod(),
                     super.getImages());
 
             super.transform(octo, world, scheduler, imageStore);
@@ -70,7 +64,7 @@ public class Octo_Not_Full extends Octo{
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
         scheduler.scheduleEvent(this,
                 scheduler.createAnimationAction(this, 0), super.getAnimationPeriod());
     }

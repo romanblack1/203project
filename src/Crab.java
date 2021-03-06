@@ -4,33 +4,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class Crab extends ExtraExecutable{
-    private final int animationPeriod;
-    private final int actionPeriod;
 
     public Crab(String id, Point position,
                 List<PImage> images, int resourceLimit, int resourceCount,
                 int actionPeriod, int animationPeriod)
     {
-        super(position, images);
-        this.animationPeriod = animationPeriod;
-        this.actionPeriod = actionPeriod;
+        super(position, images, actionPeriod, animationPeriod);
     }
-
-    public int getAnimationPeriod()
-    {
-        return this.animationPeriod;
-    }
-
-    public Class getKind(){
-        return Crab.class;
-    }
-
     private static final String QUAKE_KEY = "quake";
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Optional<Entity> crabTarget = world.findNearest(super.getPosition(), Sgrass.class);
-        long nextPeriod = this.actionPeriod;
+        long nextPeriod = super.getActionPeriod();
 
         if (crabTarget.isPresent())
         {
@@ -42,7 +28,7 @@ public class Crab extends ExtraExecutable{
                         imageStore.getImageList(QUAKE_KEY));
 
                 world.addEntity(quake);
-                nextPeriod += this.actionPeriod;
+                nextPeriod += super.getActionPeriod();
                 quake.scheduleActions(scheduler, world, imageStore);
             }
         }
@@ -77,14 +63,14 @@ public class Crab extends ExtraExecutable{
         Optional<Entity> occupant = world.getOccupant(newPos);
 
         if (horiz == 0 ||
-                (occupant.isPresent() && !(occupant.get().getKind().isInstance(Fish.class))))
+                (occupant.isPresent() && !(occupant.get().getClass().isInstance(Fish.class))))
         {
             int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
             newPos = new Point(super.getPosition().getX(), super.getPosition().getY() + vert);
             occupant = world.getOccupant(newPos);
 
             if (vert == 0 ||
-                    (occupant.isPresent() && !(occupant.get().getKind().isInstance(Fish.class))))
+                    (occupant.isPresent() && !(occupant.get().getClass().isInstance(Fish.class))))
             {
                 newPos = super.getPosition();
             }
@@ -96,9 +82,9 @@ public class Crab extends ExtraExecutable{
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
         scheduler.scheduleEvent(this,
-                scheduler.createAnimationAction(this, 0), this.animationPeriod);
+                scheduler.createAnimationAction(this, 0), super.getAnimationPeriod());
     }
 
     private static final String QUAKE_ID = "quake";

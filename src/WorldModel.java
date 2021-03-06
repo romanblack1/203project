@@ -107,7 +107,7 @@ final class WorldModel
       List<Entity> ofType = new LinkedList<>();
       for (Entity entity : this.entities)
       {
-         if (entity.getKind().equals(kind))
+         if (entity.getClass().equals(kind))
          {
             ofType.add(entity);
          }

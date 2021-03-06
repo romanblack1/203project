@@ -5,27 +5,13 @@ import java.util.Optional;
 import java.util.Random;
 
 public class Quake extends Animatable{
-    private final int animationPeriod;
-    private final int actionPeriod;
 
     public Quake(String id, Point position,
                  List<PImage> images, int resourceLimit, int resourceCount,
                  int actionPeriod, int animationPeriod)
     {
-        super(position, images);
-        this.animationPeriod = animationPeriod;
-        this.actionPeriod = actionPeriod;
+        super(position, images, actionPeriod, animationPeriod);
     }
-
-    public int getAnimationPeriod()
-    {
-        return this.animationPeriod;
-    }
-
-    public Class getKind(){
-        return Quake.class;
-    }
-
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
@@ -37,10 +23,10 @@ public class Quake extends Animatable{
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
-                this.actionPeriod);
+                super.getActionPeriod());
         scheduler.scheduleEvent(this,
                 scheduler.createAnimationAction(this, QUAKE_ANIMATION_REPEAT_COUNT),
-                this.animationPeriod);
+                super.getAnimationPeriod());
     }
 
 

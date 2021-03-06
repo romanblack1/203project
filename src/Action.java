@@ -10,7 +10,6 @@ abstract class Action
 {
    private final Executable entity;
 
-
    public Action(Executable entity)
    {
       this.entity = entity;
