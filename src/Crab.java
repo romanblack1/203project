@@ -16,7 +16,15 @@ public class Crab extends ExtraExecutable{
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> crabTarget = world.findNearest(super.getPosition(), Sgrass.class);
+        Optional<Entity> crabTarget;
+        super.checkTarget(world);
+        if(super.getTarget().isEmpty()){
+            crabTarget = world.findNearest(super.getPosition(), Sgrass.class);
+            super.setTarget(crabTarget);
+        }
+        else{
+            crabTarget = super.getTarget();
+        }
         long nextPeriod = super.getActionPeriod();
 
         if (crabTarget.isPresent())

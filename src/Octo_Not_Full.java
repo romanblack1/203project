@@ -17,9 +17,16 @@ public class Octo_Not_Full extends Octo{
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> notFullTarget = world.findNearest(super.getPosition(),
-                Fish.class);
-
+        Optional<Entity> notFullTarget;
+        super.checkTarget(world);
+        if(super.getTarget().isEmpty()){
+            notFullTarget = world.findNearest(super.getPosition(),
+                    Fish.class);
+            super.setTarget(notFullTarget);
+        }
+        else{
+            notFullTarget = super.getTarget();
+        }
         if (!notFullTarget.isPresent() ||
                 !moveToNotFull(this, world, notFullTarget.get(), scheduler) ||
                 !transformNotFull(world, scheduler, imageStore))

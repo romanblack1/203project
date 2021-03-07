@@ -18,8 +18,16 @@ public class Octo_Full extends Octo{
 
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> fullTarget = world.findNearest(super.getPosition(),
-                Atlantis.class);
+        Optional<Entity> fullTarget;
+        super.checkTarget(world);
+        if(super.getTarget().isEmpty()){
+            fullTarget = world.findNearest(super.getPosition(),
+                    Atlantis.class);
+            super.setTarget(fullTarget);
+        }
+        else{
+            fullTarget = super.getTarget();
+        }
 
         if (fullTarget.isPresent() &&
                 moveToFull(this, world, fullTarget.get(), scheduler))

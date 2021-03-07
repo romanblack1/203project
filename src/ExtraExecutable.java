@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public abstract class ExtraExecutable extends Animatable{
 
+    private Optional<Entity> target = Optional.empty();
     private PathingStrategy strategy;
 
     public ExtraExecutable(Point position, List<PImage> images, int actionPeriod, int animationPeriod) {
@@ -38,5 +39,18 @@ public abstract class ExtraExecutable extends Animatable{
 
     public void setStrategy(PathingStrategy strategy){
         this.strategy = strategy;
+    }
+    public Optional<Entity> getTarget(){
+        return target;
+    }
+    public void setTarget(Optional<Entity> target){
+        this.target = target;
+    }
+    public void checkTarget(WorldModel worldModel){
+        if(target.isPresent()) {
+            if (worldModel.getOccupant(target.get().getPosition()).isEmpty()) {
+                target = Optional.empty();
+            }
+        }
     }
 }
