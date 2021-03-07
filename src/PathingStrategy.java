@@ -27,4 +27,12 @@ public interface PathingStrategy {
                             .add(new Point(point.getX() - 1, point.getY()))
                             .add(new Point(point.getX() + 1, point.getY()))
                             .build();
+
+    public static boolean neighbors(Point p1, Point p2)
+    {
+        return p1.getX()+1 == p2.getX() && p1.getY() == p2.getY() ||
+                p1.getX()-1 == p2.getX() && p1.getY() == p2.getY() ||
+                p1.getX() == p2.getX() && p1.getY()+1 == p2.getY() ||
+                p1.getX() == p2.getX() && p1.getY()-1 == p2.getY();
+    }
 }

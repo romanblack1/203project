@@ -65,7 +65,7 @@ final class WorldModel
       addEntity(entity);
    }
 
-   private boolean withinBounds(Point pos)
+   public boolean withinBounds(Point pos)
    {
       return pos.getY() >= 0 && pos.getY() < this.numRows &&
               pos.getX() >= 0 && pos.getX() < this.numCols;

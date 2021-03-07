@@ -45,17 +45,18 @@ public class Octo_Not_Full extends Octo{
         return false;
     }
 
-    private boolean moveToNotFull(Entity octo, WorldModel world, Entity target, EventScheduler scheduler)
+    private boolean moveToNotFull(Octo octo, WorldModel world, Entity target, EventScheduler scheduler)
     {
         if (world.adjacent(octo.getPosition(), target.getPosition()))
         {
-            ((Octo)octo).setResourceCount(((Octo)octo).getResourceCount()+1);
+            (octo).setResourceCount((octo).getResourceCount()+1);
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
             return true;
         }
         else
         {
+            super.setStrategy(new AStarPathingStrategy());
             moveToPartTwo(octo, world, target, scheduler);
             return false;
         }

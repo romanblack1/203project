@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public class Crab extends ExtraExecutable{
 
+
     public Crab(String id, Point position,
                 List<PImage> images, int resourceLimit, int resourceCount,
                 int actionPeriod, int animationPeriod)
@@ -48,6 +49,7 @@ public class Crab extends ExtraExecutable{
         }
         else
         {
+            super.setStrategy(new SingleStepPathingStrategy());
             moveToPartTwo(crab, world, target, scheduler);
             return false;
         }

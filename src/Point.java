@@ -2,10 +2,6 @@ final class Point
 {
    private final int x;
    private final int y;
-   private int gvalue;
-   private int hvalue;
-   private int fvalue;
-   private Point prior;
 
    public Point(int x, int y)
    {
@@ -46,31 +42,5 @@ final class Point
    }
    public int getY(){
       return this.y;
-   }
-
-   public int getGvalue(){
-      return gvalue;
-   }
-   public int getHvalue() {
-      return hvalue;
-   }
-   public int getFvalue(){
-      return fvalue;
-   }
-   public Point getPrior() {
-      return prior;
-   }
-
-   public void setGvalue(int gvalue) {
-      this.gvalue = gvalue;
-   }
-   public void setHvalue(int hvalue) {
-      this.hvalue = hvalue;
-   }
-   public void setFvalue(int fvalue) {
-      this.fvalue = fvalue;
-   }
-   public void setPrior(Point p){
-      this.prior = p;
    }
 }

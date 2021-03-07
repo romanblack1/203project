@@ -14,59 +14,44 @@ class AStarPathingStrategy
                                    BiPredicate<Point, Point> withinReach,
                                    Function<Point, Stream<Point>> potentialNeighbors)
     {
-        Comparator<Point> pointComparator = (p1,p2) -> p1.getFvalue() - p2.getFvalue();
-        PriorityQueue<Point> openList = new PriorityQueue<Point>(pointComparator);
-        HashMap<Integer, Point> closedList = new HashMap<Integer, Point>();
+        Comparator<AStarNode> nodeComparator = (p1,p2) -> p1.f - p2.f;
+        PriorityQueue<AStarNode> openList = new PriorityQueue<AStarNode>(nodeComparator);
+        HashMap<Integer, AStarNode> closedList = new HashMap<Integer, AStarNode>();
 
         List<Point> path = new LinkedList<>();
-        Point currentPoint = start;
+        AStarNode currentPoint = new AStarNode(start);
         openList.add(currentPoint);
 
-        while(!openList.isEmpty()) { //try all accessible points before giving up
+        while(!openList.isEmpty()) {//try all accessible points before giving up
             currentPoint = openList.peek();
-            List<Point> neighbors = potentialNeighbors.apply(currentPoint).collect(Collectors.toList());
-            for (Point p : neighbors) { //for all neighbors
-                if (canPassThrough.test(p) && !closedList.containsKey(currentPoint.hashCode())) { //test for validity
-//                    if(withinReach.test(p,end)){
-//                        path.add(p);
-//                        while(currentPoint.prior != null){
-//                            path.add(currentPoint);
-//                            currentPoint = currentPoint.prior;
-//                        }
-//                        return path.stream().sorted(pointComparator).collect(Collectors.toList());
-//                    }
-                    if (p.equals(end)){
-                        while (currentPoint.getPrior() != null){
-                            path.add(currentPoint);
-                            currentPoint = currentPoint.getPrior();
+            List<Point> neighbors = potentialNeighbors.apply(currentPoint.point).collect(Collectors.toList());
+            for (Point po : neighbors) { //for all neighbors
+                AStarNode p = new AStarNode(po);
+                if (canPassThrough.test(p.point) && !closedList.containsKey(currentPoint.hashCode())) { //test for validity
+                    if (p.point.equals(end)){
+                        while (currentPoint.prior != null){
+                            path.add(currentPoint.point);
+                            currentPoint = currentPoint.prior;
                         }
-                        return path.stream().sorted(pointComparator).collect(Collectors.toList());
+                        return path;
                     }
-//                    if (currentPoint.equals(end)){
-//                        currentPoint = currentPoint.prior;
-//                        while (currentPoint.prior != null){
-//                            path.add(currentPoint);
-//                            currentPoint = currentPoint.prior;
-//                        }
-//                        return path.stream().sorted(pointComparator).collect(Collectors.toList());
-//                    }
-                    int gvalue = (int) (10 * Math.sqrt(Math.pow(p.getX() - currentPoint.getX(),2)
-                            + (Math.pow(p.getY() - currentPoint.getY(),2))) + currentPoint.getGvalue()); //calculate dist to start
+                    int gvalue = (int) (10 * Math.sqrt(Math.pow(p.point.getX() - currentPoint.point.getX(),2)
+                            + (Math.pow(p.point.getY() - currentPoint.point.getY(),2))) + currentPoint.g); //calculate dist to start
                     if (!openList.contains(p)) { //if openlist does not contain it
-                        p.setGvalue(gvalue);
-                        p.setHvalue(Math.abs(p.getX()- end.getX()) + Math.abs(p.getY() - end.getY()));
-                        p.setFvalue(p.getGvalue() + p.getHvalue());
-                        p.setPrior(currentPoint);
+                        p.g = gvalue;
+                        p.h = Math.abs(p.point.getX() - end.getX()) + Math.abs(p.point.getY() - end.getY());
+                        p.f = p.g + p.h;
+                        p.prior = currentPoint;
                         openList.add(p);
                     }
                     else {
-                        if (p.getGvalue() > gvalue) { //if openlist contains it, and the new gvalue is better
-                            p.setGvalue(gvalue);
-                            if(p.getHvalue() == 0){
-                                p.setHvalue(Math.abs(p.getX()- end.getX()) + Math.abs(p.getY() - end.getY()));
+                        if (p.g > gvalue) { //if openlist contains it, and the new gvalue is better
+                            p.g = gvalue;
+                            if(p.h == 0){
+                                p.h = Math.abs(p.point.getX() - end.getX()) + Math.abs(p.point.getY() - end.getY());
                             }
-                            p.setFvalue(p.getGvalue() + p.getHvalue());
-                            p.setPrior(currentPoint);
+                            p.f = p.g + p.h;
+                            p.prior = currentPoint;
                         }
                     }
                 }
