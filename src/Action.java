@@ -8,17 +8,6 @@ import java.util.Random;
 
 abstract class Action
 {
-   private final Executable entity;
-
-   public Action(Executable entity)
-   {
-      this.entity = entity;
-   }
-
    public abstract void executeAction(EventScheduler scheduler);
-
-   public Executable getEntity() {
-      return entity;
-   }
 
 }

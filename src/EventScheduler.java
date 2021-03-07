@@ -68,7 +68,7 @@ final class EventScheduler
       }
    }
 
-   public Action createAnimationAction(Executable entity, int repeatCount)
+   public Action createAnimationAction(Animatable entity, int repeatCount)
    {
       return new Animation(entity, repeatCount);
    }
