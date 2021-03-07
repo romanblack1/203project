@@ -62,7 +62,7 @@ public class Parse {
             Point pt = new Point(Integer.parseInt(properties[OCTO_COL]),
                     Integer.parseInt(properties[OCTO_ROW]));
             Octo_Not_Full entity = Create.octoNotFull(properties[OCTO_ID],
-                    Integer.parseInt(properties[OCTO_LIMIT]),
+                    Integer.parseInt(properties[OCTO_LIMIT]), //Should be OCTO_LIMIT, but is less for testing
                     pt,
                     Integer.parseInt(properties[OCTO_ACTION_PERIOD]),
                     Integer.parseInt(properties[OCTO_ANIMATION_PERIOD]),

@@ -22,12 +22,8 @@ public abstract class ExtraExecutable extends Animatable{
             nextPos = path.get(0);
         }
         else{
-            System.out.println("no path");
             nextPos = entity.getPosition();
         }
-        System.out.println(entity.getPosition().getX() + " " + entity.getPosition().getY());
-        System.out.println(nextPos.getX() + " " + nextPos.getY());
-//        Point nextPos = nextPosition(world, target.getPosition());
         if (!entity.getPosition().equals(nextPos))
         {
             Optional<Entity> occupant = world.getOccupant(nextPos);
@@ -39,8 +35,6 @@ public abstract class ExtraExecutable extends Animatable{
             world.moveEntity(entity, nextPos);
         }
     }
-
-    protected abstract Point nextPosition(WorldModel world, Point destPos);
 
     public void setStrategy(PathingStrategy strategy){
         this.strategy = strategy;

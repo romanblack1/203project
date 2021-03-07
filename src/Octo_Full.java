@@ -54,7 +54,7 @@ public class Octo_Full extends Octo{
         }
         else
         {
-            super.setStrategy(new SingleStepPathingStrategy());
+            super.setStrategy(new BreadthFirstSearch());
             moveToPartTwo(octo, world, target, scheduler);
             return false;
         }

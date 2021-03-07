@@ -55,32 +55,6 @@ public class Crab extends ExtraExecutable{
         }
     }
 
-
-    protected Point nextPosition(WorldModel world, Point destPos)
-    {
-        int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
-        Point newPos = new Point(super.getPosition().getX() + horiz,
-                super.getPosition().getY());
-
-        Optional<Entity> occupant = world.getOccupant(newPos);
-
-        if (horiz == 0 ||
-                (occupant.isPresent() && !(occupant.get().getClass().isInstance(Fish.class))))
-        {
-            int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
-            newPos = new Point(super.getPosition().getX(), super.getPosition().getY() + vert);
-            occupant = world.getOccupant(newPos);
-
-            if (vert == 0 ||
-                    (occupant.isPresent() && !(occupant.get().getClass().isInstance(Fish.class))))
-            {
-                newPos = super.getPosition();
-            }
-        }
-
-        return newPos;
-    }
-
     public void scheduleActions(EventScheduler scheduler, WorldModel world, ImageStore imageStore){
         scheduler.scheduleEvent(this,
                 scheduler.createActivityAction(this, world, imageStore),
