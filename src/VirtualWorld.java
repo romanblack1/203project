@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 import java.util.Scanner;
 import processing.core.*;
 
@@ -34,7 +35,7 @@ public final class VirtualWorld
    private static final int DEFAULT_IMAGE_COLOR = 0x808080;
 
    private static final String LOAD_FILE_NAME = "world.sav"; // Actual save
-   //private static final String LOAD_FILE_NAME = "world - Copy.sav"; // Modified save
+   //private static final String LOAD_FILE_NAME = "new.sav"; // Modified save
 
    private static final String FAST_FLAG = "-fast";
    private static final String FASTER_FLAG = "-faster";
@@ -114,6 +115,27 @@ public final class VirtualWorld
          }
          view.shiftView(dx, dy);
       }
+   }
+
+   public void mousePressed()
+   {
+      Point pressed = new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
+      Point l = new Point(pressed.getX()-1, pressed.getY());
+      Point r = new Point(pressed.getX()+1, pressed.getY());
+
+      world.setBackground(l, new Background(DEFAULT_IMAGE_NAME,
+              imageStore.getImageList("bubbles")));
+      world.setBackground(pressed, new Background(DEFAULT_IMAGE_NAME,
+              imageStore.getImageList("bubbles")));
+      world.setBackground(r, new Background(DEFAULT_IMAGE_NAME,
+              imageStore.getImageList("bubbles")));
+
+      Skeleton skele = Create.skeleton("skele", pressed, 5, 6,
+              imageStore.getImageList("skeleton"));
+
+      skele.scheduleActions(scheduler, world, imageStore);
+      world.tryAddEntity(skele);
+      redraw();
    }
 
    private static Background createDefaultBackground(ImageStore imageStore)

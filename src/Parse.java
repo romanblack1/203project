@@ -10,8 +10,8 @@ public class Parse {
     private static final int OCTO_COL = 2;
     private static final int OCTO_ROW = 3;
     private static final int OCTO_LIMIT = 4;
-    private static final int OCTO_ACTION_PERIOD = 5;
-    private static final int OCTO_ANIMATION_PERIOD = 6;
+    private static final int OCTO_ACTION_PERIOD = 5;//5
+    private static final int OCTO_ANIMATION_PERIOD = 6;//6
 
     private static final int OBSTACLE_NUM_PROPERTIES = 4;
     private static final int OBSTACLE_ID = 1;
@@ -132,6 +132,4 @@ public class Parse {
 
         return properties.length == SGRASS_NUM_PROPERTIES;
     }
-
-
 }

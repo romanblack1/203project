@@ -79,5 +79,4 @@ public class Crab extends ExtraExecutable{
         return new Quake(QUAKE_ID, position, images,
                 0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
     }
-
 }

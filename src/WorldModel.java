@@ -60,7 +60,8 @@ final class WorldModel
       {
          // arguably the wrong type of exception, but we are not
          // defining our own exceptions yet
-         throw new IllegalArgumentException("position occupied");
+         return;
+         //throw new IllegalArgumentException("position occupied");
       }
       addEntity(entity);
    }

@@ -11,6 +11,11 @@ public class Create {
                 0, 0, 0, 0);
     }
 
+    public static Skeleton skeleton(String id, Point position, int actionPeriod, int animationPeriod,
+                                    List<PImage> images){
+        return new Skeleton(id, position, actionPeriod, animationPeriod, images);
+    }
+
 
     public static Octo_Not_Full octoNotFull(String id, int resourceLimit,
                                            Point position, int actionPeriod, int animationPeriod,
