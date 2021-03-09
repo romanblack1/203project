@@ -1,7 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import processing.core.*;
 
 import javax.swing.text.EditorKit;
@@ -18,12 +19,12 @@ public final class VirtualWorld
 {
    private static final int TIMER_ACTION_PERIOD = 100;
 
-   private static final int VIEW_WIDTH = 640;
-   private static final int VIEW_HEIGHT = 480;
+   private static final int VIEW_WIDTH = 640*2;//640
+   private static final int VIEW_HEIGHT = 480;//480
    private static final int TILE_WIDTH = 32;
    private static final int TILE_HEIGHT = 32;
-   private static final int WORLD_WIDTH_SCALE = 2;
-   private static final int WORLD_HEIGHT_SCALE = 2;
+   private static final int WORLD_WIDTH_SCALE = 1;//2
+   private static final int WORLD_HEIGHT_SCALE = 2;//2
 
    private static final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
    private static final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
@@ -40,9 +41,9 @@ public final class VirtualWorld
    private static final String FAST_FLAG = "-fast";
    private static final String FASTER_FLAG = "-faster";
    private static final String FASTEST_FLAG = "-fastest";
-   private static final double FAST_SCALE = 0.5;
+   private static final double FAST_SCALE = 0.001;
    private static final double FASTER_SCALE = 0.25;
-   private static final double FASTEST_SCALE = 0.10;
+   private static final double FASTEST_SCALE = 0.1;
 
    private static double timeScale = 1.0;
 
@@ -50,6 +51,10 @@ public final class VirtualWorld
    private WorldModel world;
    private WorldView view;
    private EventScheduler scheduler;
+
+   private Hero hero;
+   private int yOffSet = 0;
+   private int cameraOffSet = 0;
 
    private long next_time;
 
@@ -65,7 +70,7 @@ public final class VirtualWorld
    {
       this.imageStore = new ImageStore(
          createImageColored(TILE_WIDTH, TILE_HEIGHT, DEFAULT_IMAGE_COLOR));
-      this.world = new WorldModel(WORLD_ROWS, WORLD_COLS,
+      this.world = new WorldModel(WORLD_ROWS, WORLD_COLS,//WORLD_ROWS, WORLD_COLS
          createDefaultBackground(imageStore));
       this.view = new WorldView(VIEW_ROWS, VIEW_COLS, this, world,
          TILE_WIDTH, TILE_HEIGHT);
@@ -77,6 +82,11 @@ public final class VirtualWorld
       scheduleActions(world, scheduler, imageStore);
 
       next_time = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
+
+      //new --------------------------------------------------------------------------------------------
+      this.hero = new Hero(new Point(0, 5),
+              imageStore.getImageList("hero"), 5,6);
+      world.tryAddEntity(hero);
    }
 
    public void draw()
@@ -93,33 +103,73 @@ public final class VirtualWorld
 
    public void keyPressed()
    {
+      int vdx = 0;
+      int vdy = 0;
+
       if (key == CODED)
       {
-         int dx = 0;
-         int dy = 0;
+         int hdx = 0;
+         int hdy = 0;
 
          switch (keyCode)
          {
             case UP:
-               dy = -1;
+               hdy = -1;
+               if(hero.getPosition().getY() - yOffSet < 5){
+                  vdy = -1;
+                  if(view.shiftView(vdx, vdy)){
+                     yOffSet -= 1;
+                  }
+               }
                break;
             case DOWN:
-               dy = 1;
+               hdy = 1;
+               if(hero.getPosition().getY() - yOffSet > 9){
+                  vdy = 1;
+                  if(view.shiftView(vdx, vdy)){
+                     yOffSet += 1;
+                  }
+               }
                break;
             case LEFT:
-               dx = -1;
+               hdx = -1;
                break;
             case RIGHT:
-               dx = 1;
+               hdx = 1;
                break;
          }
-         view.shiftView(dx, dy);
+
+         Point nextHeroPos = new Point(hero.getPosition().getX()+hdx, hero.getPosition().getY()+hdy);
+         if(world.withinBounds(nextHeroPos) && !world.isOccupied(nextHeroPos)){
+            world.moveEntity(hero, nextHeroPos);
+         }
       }
+      else
+         switch (key) {
+            case ' ':
+               Point pos = hero.getPosition();
+               List<Point> neighbors = PathingStrategy.CARDINAL_NEIGHBORS.apply(pos).collect(Collectors.toList());
+               for (Point p : neighbors) {
+                  if (world.getOccupant(p).isPresent()) {
+                     Entity entity = world.getOccupant(p).get();
+                     if (entity.getClass().equals(Skeleton.class)) {
+                        world.removeEntity(entity);
+                        scheduler.unscheduleAllEvents(entity);
+                        Quake quake = new Quake("quake", p, imageStore.getImageList("quake"),
+                                0, 0, 1100, 100);
+                        world.tryAddEntity(quake);
+                        quake.scheduleActions(scheduler, world, imageStore);
+                        ;
+                     }
+                  }
+               }
+         }
+
    }
 
    public void mousePressed()
    {
-      Point pressed = new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
+      Point pressed = new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT + yOffSet);
       Point l = new Point(pressed.getX()-1, pressed.getY());
       Point r = new Point(pressed.getX()+1, pressed.getY());
 
@@ -130,11 +180,28 @@ public final class VirtualWorld
       world.setBackground(r, new Background(DEFAULT_IMAGE_NAME,
               imageStore.getImageList("bubbles")));
 
-      Skeleton skele = Create.skeleton("skele", pressed, 5, 6,
-              imageStore.getImageList("skeleton"));
+      List<Executable> entities = new ArrayList<>();
+      Octo_Not_Full notFull1 = Create.octoNotFull("octo", 2, l, 5, 6,
+              imageStore.getImageList("octo"));
+      entities.add(notFull1);
+      Random rand = new Random();
+      Crab crab = Create.crab("crab" + " -- crab", pressed, 4/4,
+              50 + rand.nextInt(100), imageStore.getImageList("crab"));
+      entities.add(crab);
+      Octo_Not_Full notFull2 = Create.octoNotFull("octo", 2, r, 5, 6,
+              imageStore.getImageList("octo"));
+      entities.add(notFull2);
 
-      skele.scheduleActions(scheduler, world, imageStore);
-      world.tryAddEntity(skele);
+      Optional<Entity> atlantis = world.findNearest(pressed, Atlantis.class);
+
+      for(Executable e : entities){
+         if(world.withinBounds(e.getPosition())){
+            if(world.tryAddEntity(e)){
+               e.scheduleActions(scheduler, world, imageStore);
+            }
+         }
+      }
+      ((Executable)atlantis.get()).scheduleActions(scheduler, world, imageStore);
       redraw();
    }
 
@@ -191,7 +258,9 @@ public final class VirtualWorld
       {
          //Only start actions for entities that include action (not those with just animations)
          if (entity instanceof Executable) {
-            ((Executable) entity).scheduleActions(scheduler, world, imageStore);
+            if(!entity.getClass().equals(Atlantis.class)){
+               ((Executable) entity).scheduleActions(scheduler, world, imageStore);
+            }
          }
       }
    }

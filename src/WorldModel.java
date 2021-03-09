@@ -54,16 +54,19 @@ final class WorldModel
       return Optional.empty();
    }
 
-   public void tryAddEntity(Entity entity)
+   public boolean tryAddEntity(Entity entity)
    {
       if (isOccupied(entity.getPosition()))
       {
+         return false;
          // arguably the wrong type of exception, but we are not
          // defining our own exceptions yet
-         return;
          //throw new IllegalArgumentException("position occupied");
       }
-      addEntity(entity);
+      else{
+         addEntity(entity);
+         return true;
+      }
    }
 
    public boolean withinBounds(Point pos)
@@ -222,8 +225,6 @@ final class WorldModel
    private static final String BGND_KEY = "background";
 
    private static final int PROPERTY_KEY = 0;
-
-
 
    public void load(Scanner in, ImageStore imageStore)
    {

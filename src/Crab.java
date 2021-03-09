@@ -19,7 +19,7 @@ public class Crab extends ExtraExecutable{
         Optional<Entity> crabTarget;
         super.checkTarget(world);
         if(super.getTarget().isEmpty()){
-            crabTarget = world.findNearest(super.getPosition(), Sgrass.class);
+            crabTarget = world.findNearest(super.getPosition(), Atlantis.class);
             super.setTarget(crabTarget);
         }
         else{

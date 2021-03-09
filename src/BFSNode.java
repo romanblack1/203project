@@ -1,6 +1,6 @@
 public class BFSNode {
-    private Point point;
-    private BFSNode prior;
+    private final Point point;
+    private final BFSNode prior;
 
     public BFSNode(Point point, BFSNode prior){
         this.point = point;

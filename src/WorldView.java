@@ -31,14 +31,18 @@ final class WorldView
       return Math.min(high, Math.max(value, low));
    }
 
-   public void shiftView(int colDelta, int rowDelta)
+   public boolean shiftView(int colDelta, int rowDelta)
    {
       int newCol = clamp(this.viewport.getCol() + colDelta, 0,
               this.world.getNumCols() - this.viewport.getNumCols());
       int newRow = clamp(this.viewport.getRow() + rowDelta, 0,
               this.world.getNumRows() - this.viewport.getNumRows());
 
+      if(newRow == this.viewport.getRow()){
+         return false;
+      }
       this.viewport.shift(newCol, newRow);
+      return true;
    }
 
    private void drawBackground()

@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Sgrass extends Executable{
     private final String id;
+    private FishFactory factory;
 
     public Sgrass(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
@@ -25,13 +26,17 @@ public class Sgrass extends Executable{
     public void execute(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Optional<Point> openPt = world.findOpenAround(super.getPosition());
+        this.factory = new FishFactory(FISH_ID_PREFIX + this.id, FISH_CORRUPT_MIN +
+                rand.nextInt(FISH_CORRUPT_MAX - FISH_CORRUPT_MIN), imageStore.getImageList(FISH_KEY));
 
         if (openPt.isPresent())
         {
-            Fish fish = Create.fish(FISH_ID_PREFIX + this.id,
-                    openPt.get(), FISH_CORRUPT_MIN +
-                            rand.nextInt(FISH_CORRUPT_MAX - FISH_CORRUPT_MIN),
-                    imageStore.getImageList(FISH_KEY));
+            Fish fish = factory.create(openPt.get());
+
+//            Fish fish = Create.fish(FISH_ID_PREFIX + this.id,
+//                    openPt.get(), FISH_CORRUPT_MIN +
+//                            rand.nextInt(FISH_CORRUPT_MAX - FISH_CORRUPT_MIN),
+//                    imageStore.getImageList(FISH_KEY));
             world.addEntity(fish);
             fish.scheduleActions(scheduler, world, imageStore);
         }
