@@ -35,4 +35,17 @@ public interface PathingStrategy {
                 p1.getX() == p2.getX() && p1.getY()+1 == p2.getY() ||
                 p1.getX() == p2.getX() && p1.getY()-1 == p2.getY();
     }
+
+    public static final Function<Point, Stream<Point>> DIAGONAL_CARDINAL_NEIGHBORS =
+            point ->
+                    Stream.<Point>builder()
+                            .add(new Point(point.getX() - 1, point.getY() - 1))
+                            .add(new Point(point.getX() + 1, point.getY() + 1))
+                            .add(new Point(point.getX() - 1, point.getY() + 1))
+                            .add(new Point(point.getX() + 1, point.getY() - 1))
+                            .add(new Point(point.getX(), point.getY() - 1))
+                            .add(new Point(point.getX(), point.getY() + 1))
+                            .add(new Point(point.getX() - 1, point.getY()))
+                            .add(new Point(point.getX() + 1, point.getY()))
+                            .build();
 }

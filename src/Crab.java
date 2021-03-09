@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public class Crab extends ExtraExecutable{
 
+    private QuakeFactory factory;
 
     public Crab(String id, Point position,
                 List<PImage> images, int resourceLimit, int resourceCount,
@@ -33,13 +34,16 @@ public class Crab extends ExtraExecutable{
 
             if (moveToCrab(this, world, crabTarget.get(), scheduler))
             {
-                Quake quake = createQuake(tgtPos,
-                        imageStore.getImageList(QUAKE_KEY));
+                factory = new QuakeFactory(imageStore.getImageList(QUAKE_KEY));
+                Quake quake = factory.create(tgtPos);
 
                 world.addEntity(quake);
                 nextPeriod += super.getActionPeriod();
                 quake.scheduleActions(scheduler, world, imageStore);
             }
+        }
+        else{
+            world.setWin(true);
         }
 
         scheduler.scheduleEvent(this,
@@ -71,12 +75,4 @@ public class Crab extends ExtraExecutable{
                 scheduler.createAnimationAction(this, 0), super.getAnimationPeriod());
     }
 
-    private static final String QUAKE_ID = "quake";
-    private static final int QUAKE_ACTION_PERIOD = 1100;
-    private static final int QUAKE_ANIMATION_PERIOD = 100;
-    private Quake createQuake(Point position, List<PImage> images)
-    {
-        return new Quake(QUAKE_ID, position, images,
-                0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
-    }
 }

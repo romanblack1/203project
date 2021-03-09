@@ -1,5 +1,9 @@
 import processing.core.PImage;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.*;
 
 /*
@@ -15,6 +19,11 @@ final class WorldModel
    private final Entity[][] occupancy;
    private final Set<Entity> entities;
 
+   private boolean win = false;
+   private Instant startTime;
+   private Instant endTime;
+
+
    public WorldModel(int numRows, int numCols, Background defaultBackground)
    {
       this.numRows = numRows;
@@ -22,6 +31,8 @@ final class WorldModel
       this.background = new Background[numRows][numCols];
       this.occupancy = new Entity[numRows][numCols];
       this.entities = new HashSet<>();
+
+      startTime = Instant.now();
 
       for (int row = 0; row < numRows; row++)
       {
@@ -289,4 +300,14 @@ final class WorldModel
       return this.entities;
    }
 
+   public void setWin(boolean boo){
+      this.endTime = Instant.now();
+      this.win = boo;
+   }
+   public boolean getWin() {
+      return win;
+   }
+   public Duration getTime(){
+      return Duration.between(startTime, endTime);
+   }
 }

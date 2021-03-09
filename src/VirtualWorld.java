@@ -99,6 +99,13 @@ public final class VirtualWorld
       }
 
       view.drawViewport();
+
+      if(world.getWin()){
+         stroke(0);
+         fill(0);
+
+         text("You Won! Time: " + world.getTime().toSeconds(), 600, 200);
+      }
    }
 
    public void keyPressed()
@@ -146,23 +153,16 @@ public final class VirtualWorld
       }
       else
          switch (key) {
+            case 'a':
+               System.out.println("easy");
+               hero.setDifficulty(true);
+               break;
+            case 'd':
+               System.out.println("hard");
+               hero.setDifficulty(false);
+               break;
             case ' ':
-               Point pos = hero.getPosition();
-               List<Point> neighbors = PathingStrategy.CARDINAL_NEIGHBORS.apply(pos).collect(Collectors.toList());
-               for (Point p : neighbors) {
-                  if (world.getOccupant(p).isPresent()) {
-                     Entity entity = world.getOccupant(p).get();
-                     if (entity.getClass().equals(Skeleton.class)) {
-                        world.removeEntity(entity);
-                        scheduler.unscheduleAllEvents(entity);
-                        Quake quake = new Quake("quake", p, imageStore.getImageList("quake"),
-                                0, 0, 1100, 100);
-                        world.tryAddEntity(quake);
-                        quake.scheduleActions(scheduler, world, imageStore);
-                        ;
-                     }
-                  }
-               }
+               hero.execute(world, imageStore, scheduler);
          }
 
    }
