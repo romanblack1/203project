@@ -35,8 +35,8 @@ public final class VirtualWorld
    private static final String DEFAULT_IMAGE_NAME = "background_default";
    private static final int DEFAULT_IMAGE_COLOR = 0x808080;
 
-   private static final String LOAD_FILE_NAME = "world.sav"; // Actual save
-   //private static final String LOAD_FILE_NAME = "new.sav"; // Modified save
+   //private static final String LOAD_FILE_NAME = "world.sav"; // Actual save
+   private static final String LOAD_FILE_NAME = "world - Copy.sav"; // Modified save
 
    private static final String FAST_FLAG = "-fast";
    private static final String FASTER_FLAG = "-faster";
@@ -84,7 +84,7 @@ public final class VirtualWorld
       next_time = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
 
       //new --------------------------------------------------------------------------------------------
-      this.hero = new Hero(new Point(0, 5),
+      this.hero = new Hero(new Point(0, 0),
               imageStore.getImageList("hero"), 5,6);
       world.tryAddEntity(hero);
    }
@@ -181,14 +181,14 @@ public final class VirtualWorld
               imageStore.getImageList("bubbles")));
 
       List<Executable> entities = new ArrayList<>();
-      Octo_Not_Full notFull1 = Create.octoNotFull("octo", 2, l, 5, 6,
+      Octo_Not_Full notFull1 = Create.octoNotFull("octo", 2, l, 813, 100,
               imageStore.getImageList("octo"));
       entities.add(notFull1);
       Random rand = new Random();
       Crab crab = Create.crab("crab" + " -- crab", pressed, 4/4,
               50 + rand.nextInt(100), imageStore.getImageList("crab"));
       entities.add(crab);
-      Octo_Not_Full notFull2 = Create.octoNotFull("octo", 2, r, 5, 6,
+      Octo_Not_Full notFull2 = Create.octoNotFull("octo", 2, r, 813, 100,
               imageStore.getImageList("octo"));
       entities.add(notFull2);
 

@@ -18,7 +18,7 @@ public class SkeletonFactory{
     }
 
     public Skeleton create(Point position){
-        return new Skeleton(id, position, actionPeriod, animationPeriod, images);
+        return new Skeleton(id, position, 250, 100, images);
     }
 
 }

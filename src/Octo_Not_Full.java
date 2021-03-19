@@ -63,7 +63,7 @@ public class Octo_Not_Full extends Octo{
         }
         else
         {
-            super.setStrategy(new AStarPathingStrategy());
+            super.setStrategy(new BreadthFirstSearch());
             moveToPartTwo(octo, world, target, scheduler);
             return false;
         }

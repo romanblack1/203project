@@ -1,36 +1,48 @@
-atlantis images/atlantis0.bmp 255 255 255 0
-atlantis images/atlantis1.bmp 
-atlantis images/atlantis2.bmp 
-atlantis images/atlantis3.bmp 
-atlantis images/atlantis4.bmp 
-atlantis images/atlantis5.bmp
-atlantis images/atlantis6.bmp
-crab images/crabout01.bmp 255 255 255 128
-crab images/crabout02.bmp 255 255 255 128
-crab images/crabout03.bmp 255 255 255 128
-crab images/crabout04.bmp 255 255 255 128
-crab images/crabout05.bmp 255 255 255 128
-crab images/crabout06.bmp 255 255 255 128
-crab images/crabout07.bmp 255 255 255 128
-crab images/crabout08.bmp 255 255 255 128
-crab images/crabout09.bmp 255 255 255 128
-crab images/crabout10.bmp 255 255 255 128
-crab images/crabout11.bmp 255 255 255 128
-crab images/crabout11.bmp 255 255 255 128
-sea images/sea.bmp 255 255 255 0
-octo images/s1.bmp 255 255 255 0
-octo images/s2.bmp 255 255 255 0
-octo images/s3.bmp 255 255 255 0
-octo images/s4.bmp 255 255 255 0
-octo images/s5.bmp 255 255 255 0
-obstacle images/rock.bmp
-fish images/fish.bmp 255 255 255 0
-quake images/quake1.bmp 255 255 255 0
-quake images/quake2.bmp 255 255 255 0
-quake images/quake3.bmp 255 255 255 0
-quake images/quake4.bmp 255 255 255 0
-quake images/quake5.bmp 255 255 255 0
-quake images/quake6.bmp 255 255 255 0
-bubbles images/bubbles.bmp
-seaGrass images/Seaweed1.bmp 255 255 255 0
+atlantis images/skull-1.png 255 255 255 0
+atlantis images/skull-1.png
+atlantis images/skull-2.png
+atlantis images/skull-3.png
+atlantis images/skull-4.png
+atlantis images/skull-5.png
+atlantis images/skull-6.png
+crab images/raider_01.png 255 255 255 128
+crab images/raider_02.png 255 255 255 128
+crab images/raider_03.png 255 255 255 128
+crab images/raider_04.png 255 255 255 128
+crab images/raider_05.png 255 255 255 128
+crab images/raider_06.png 255 255 255 128
+crab images/raider_07.png 255 255 255 128
+crab images/raider_08.png 255 255 255 128
+crab images/raider_09.png 255 255 255 128
+crab images/raider_10.png 255 255 255 128
+crab images/raider_11.png 255 255 255 128
+crab images/raider_12.png 255 255 255 128
+sea images/grassTile.gif 255 255 255 0
+octo images/zombie-1.png 255 255 255 0
+octo images/zombie-2.png 255 255 255 0
+octo images/zombie-3.png 255 255 255 0
+octo images/zombie-4.png 255 255 255 0
+octo images/zombie-5.png 255 255 255 0
+octo images/zombie-6.png 255 255 255 0
+octo images/zombie-7.png 255 255 255 0
+octo images/zombie-8.png 255 255 255 0
+skeleton images/skele0.png 255 255 255 0
+skeleton images/skele1.png 255 255 255 0
+skeleton images/skele2.png 255 255 255 0
+skeleton images/skele3.png 255 255 255 0
+skeleton images/skele4.png 255 255 255 0
+skeleton images/skele5.png 255 255 255 0
+skeleton images/skele6.png 255 255 255 0
+skeleton images/skele7.png 255 255 255 0
+obstacle images/tree.gif
+fish images/person.gif 255 255 255 0
+quake images/boom_0.png 255 255 255 0
+quake images/boom_1.png 255 255 255 0
+quake images/boom_2.png 255 255 255 0
+quake images/boom_3.png 255 255 255 0
+quake images/boom_4.png 255 255 255 0
+quake images/boom_5.png 255 255 255 0
+bubbles images/dirtTile.png
+seaGrass images/fire.gif 255 255 255 0
 background_default images/none.bmp
+hero images/hero.png
